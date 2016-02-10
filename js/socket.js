@@ -14,7 +14,9 @@
       host = window.document.location.host.replace(/:.*/, '');
       this.ws = new WebSocket('ws://' + host + ':3000');
       return this.ws.onmessage = function(event) {
-        return self.received(JSON.parse(JSON.parse(event.data)));
+        if (self.received !== null) {
+          return self.onmessage(JSON.parse(JSON.parse(event.data)));
+        }
       };
     };
 
@@ -22,7 +24,9 @@
       return this.ws.send(JSON.stringify(data));
     };
 
-    Socket.prototype.received = function(data) {};
+    Socket.prototype.receive = function(fn) {
+      return this.onmessage = fn;
+    };
 
     return Socket;
 
@@ -31,7 +35,15 @@
   global = this;
 
   $(function() {
-    return global.socket = new Socket();
+    global.socket = new Socket();
+    socket.receive(function(data) {
+      return console.log(data);
+    });
+    return setInterval(function() {
+      return socket.send({
+        hoge: 2
+      });
+    }, 1000);
   });
 
 }).call(this);
