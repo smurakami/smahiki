@@ -17,7 +17,6 @@ class Socket
   receive: (fn) ->
     @onmessage = fn
 
-
 global = this
 $ ->
   global.socket = new Socket()
