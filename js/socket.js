@@ -4,7 +4,6 @@
 
   Socket = (function() {
     function Socket() {
-      console.log('hello');
       this.initWebSocket();
     }
 
@@ -13,10 +12,21 @@
       self = this;
       host = window.document.location.host.replace(/:.*/, '');
       this.ws = new WebSocket('ws://' + host + ':3000');
-      return this.ws.onmessage = function(event) {
+      this.ws.onmessage = function(event) {
         if (self.received !== null) {
-          return self.onmessage(JSON.parse(JSON.parse(event.data)));
+          return self.onmessage(JSON.parse(event.data));
         }
+      };
+      this.ws.onopen = function() {
+        if (self.onopen) {
+          return self.onopen();
+        }
+      };
+      this.ws.onerror = function(error) {
+        return console.log('WebSocket Error ' + error);
+      };
+      return this.ws.onclose = function(error) {
+        return console.log('WebSocket Error ' + error);
       };
     };
 
@@ -28,6 +38,10 @@
       return this.onmessage = fn;
     };
 
+    Socket.prototype.open = function(fn) {
+      return this.onopen = fn;
+    };
+
     return Socket;
 
   })();
@@ -37,11 +51,20 @@
   $(function() {
     global.socket = new Socket();
     socket.receive(function(data) {
-      return console.log(data);
+      return console.log(data.data.hoge);
+    });
+    socket.open(function() {
+      return socket.send({
+        event: "location"
+      });
     });
     return setInterval(function() {
+      console.log('send');
       return socket.send({
-        hoge: 2
+        event: "hoge",
+        data: {
+          hoge: 2
+        }
       });
     }, 1000);
   });

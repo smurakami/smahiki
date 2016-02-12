@@ -8,20 +8,40 @@ app.use(express.static(__dirname + '/'));
 server = http.createServer(app);
 wss = new WebSocketServer({server:server});
 
-connections = [];
+class Room
+    @count = 0
+    @all = []
+    @find = (id) ->
+        for r in Room.all
+            if r.id == id
+                return r
+        return null
+
+    constructor: (location) ->
+        @location = location
+        @ws_list = []
+        @id = Room.count
+        Room.count++
+
+    broadcast: (data) ->
+        message = JSON.stringify data
+        @ws_list.forEach (con, i) ->
+            con.send(message);
 
 wss.on 'connection', (ws) ->
-    connections.push(ws);
     ws.on 'close', ->
-        connections = connections.filter  (conn, i) ->
-            return if conn == ws then false else true
 
     ws.on 'message', (message) ->
-        console.log('message:', message);
-        broadcast(JSON.stringify(message))
+        data = JSON.parse(message)
+        console.log data
 
-broadcast = (message) ->
-    connections.forEach (con, i) ->
-        con.send(message);
+        switch data.event
+            when "location"
+                room = new Room(null)
+                room.ws_list.push ws
+                Room.all.push room
+            else
+                if room = Room.all[0]
+                    room.broadcast(data)
 
 server.listen(3000);
