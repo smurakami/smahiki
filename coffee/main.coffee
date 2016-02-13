@@ -24,14 +24,13 @@ class Main
     $('#go_button').css('margin-left', $(window).width()/2-107).css('margin-top', $(window).height()/2-100)
 
   initScroll: ->
-    self = @
     height = $('#scroll_body').height()
     start_height = height * 0.9
     prev = start_height
     $('#scroll_container').scrollTop(start_height)
-    $('#scroll_container').scroll ->
+    $('#scroll_container').scroll =>
       top = $('#scroll_container').scrollTop()
-      self.scrollValue += -(top - prev)
+      @scrollValue += -(top - prev)
       if top < height / 2
         $('#scroll_container').scrollTop(start_height)
         prev = start_height
@@ -39,11 +38,11 @@ class Main
         prev = top
 
   initSocket: ->
-    socket.onmessage = (data) ->
+    socket.onmessage = (data) =>
       console.log data
       switch data.event
         when 'location'
-          self.setRoom data.room_id
+          @setRoom data.room_id
 
   setRoom: (room_id) ->
     @room_id = room_id

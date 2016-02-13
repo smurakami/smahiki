@@ -31,33 +31,36 @@
     };
 
     Main.prototype.initScroll = function() {
-      var height, prev, self, start_height;
-      self = this;
+      var height, prev, start_height;
       height = $('#scroll_body').height();
       start_height = height * 0.9;
       prev = start_height;
       $('#scroll_container').scrollTop(start_height);
-      return $('#scroll_container').scroll(function() {
-        var top;
-        top = $('#scroll_container').scrollTop();
-        self.scrollValue += -(top - prev);
-        if (top < height / 2) {
-          $('#scroll_container').scrollTop(start_height);
-          return prev = start_height;
-        } else {
-          return prev = top;
-        }
-      });
+      return $('#scroll_container').scroll((function(_this) {
+        return function() {
+          var top;
+          top = $('#scroll_container').scrollTop();
+          _this.scrollValue += -(top - prev);
+          if (top < height / 2) {
+            $('#scroll_container').scrollTop(start_height);
+            return prev = start_height;
+          } else {
+            return prev = top;
+          }
+        };
+      })(this));
     };
 
     Main.prototype.initSocket = function() {
-      return socket.onmessage = function(data) {
-        console.log(data);
-        switch (data.event) {
-          case 'location':
-            return self.setRoom(data.room_id);
-        }
-      };
+      return socket.onmessage = (function(_this) {
+        return function(data) {
+          console.log(data);
+          switch (data.event) {
+            case 'location':
+              return _this.setRoom(data.room_id);
+          }
+        };
+      })(this);
     };
 
     Main.prototype.setRoom = function(room_id) {
