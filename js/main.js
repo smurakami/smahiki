@@ -8,7 +8,6 @@
       this.initCSS();
       this.initScroll();
       this.initSocket();
-      this.sendLocation();
     }
 
     Main.prototype.init = function() {
@@ -54,7 +53,7 @@
     Main.prototype.initSocket = function() {
       socket.onopen = (function(_this) {
         return function() {
-          return _this.gameStart();
+          return _this.sendLocation();
         };
       })(this);
       return socket.onmessage = (function(_this) {
@@ -69,7 +68,8 @@
     };
 
     Main.prototype.setRoom = function(room_id) {
-      return this.room_id = room_id;
+      this.room_id = room_id;
+      return this.gameStart();
     };
 
     Main.prototype.sendLocation = function() {

@@ -4,7 +4,6 @@ class Main
     @initCSS()
     @initScroll()
     @initSocket()
-    @sendLocation()
 
   init: ->
     @started = false
@@ -39,7 +38,7 @@ class Main
 
   initSocket: ->
     socket.onopen = =>
-      @gameStart()
+      @sendLocation()
     socket.onmessage = (data) =>
       console.log data
       switch data.event
@@ -48,6 +47,7 @@ class Main
 
   setRoom: (room_id) ->
     @room_id = room_id
+    @gameStart()
 
   sendLocation: ->
     successCallback = (position) ->
