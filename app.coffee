@@ -1,5 +1,40 @@
 # app.coffee
 class Room
+  constructor: (ws, location) ->
+    @id = Room.count
+    Room.count++
+
+    @location = location
+    @ws_list = [ws]
+    # チームに関する値
+    @scroll_value =
+      a: 0
+      b: 0
+    @start()
+
+  addWS: (ws) ->
+    @ws_list.push ws
+    ws.room = @
+
+  removeWS: (ws) ->
+    ws.room = null
+    @ws_list = @ws_list.filter (x) -> x != ws
+
+  start: ->
+    interval = 0.5
+    _loop = =>
+      break if @ws_list.length == 0
+      @broadcast
+        event: "scroll"
+        value: @scroll_value
+      setTimeout _loop, 1000 * interval
+
+  broadcast: (data) ->
+    message = JSON.stringify data
+    @ws_list.forEach (con, i) ->
+      con.send(message);
+
+  #: ---- class
   @count = 0
   @all = []
   @find = (id) ->
@@ -40,32 +75,6 @@ class Room
     return null if d > loc_th # 遠くにある部屋には入れない
     return head
 
-  constructor: (ws, location) ->
-    @id = Room.count
-    Room.count++
-
-    @location = location
-    @ws_list = [ws]
-    # チームに関する値
-    @scroll_value =
-      a: 0
-      b: 0
-    @start()
-
-  start: ->
-    interval = 0.5
-    _loop = =>
-      break if @ws_list.length == 0
-      @broadcast
-        event: "scroll"
-        value: @scroll_value
-      setTimeout _loop, 1000 * interval
-
-  broadcast: (data) ->
-    message = JSON.stringify data
-    @ws_list.forEach (con, i) ->
-      con.send(message);
-
 
 class Main
   constructor: ->
@@ -86,10 +95,12 @@ class Main
       ws.on 'message', (message) ->
         self.onMessage ws, message
     server.listen(3000);
+
   closeConnection: (ws) ->
-    return unless ws.room_id?
-    room = Room.find ws.room_id
+    return unless ws.room?
+    ws.room.removeWS ws
     room.ws_list = room.ws_list.filter (x) -> x != ws
+
   onMessage: (ws, message) ->
     data = JSON.parse(message)
     console.log data
@@ -105,14 +116,13 @@ class Main
     location = data.location
     room = Room.findByLocation(location)
     if room?
-      room.ws_list.push ws
-      ws.room_id = room.id
+      room.addWS ws
     else
       room = new Room(ws, location)
       Room.save room
     @send ws,
       event: "location"
-      room_id: ws.room_id
+      room_id: ws.room.id
 
   scroll: (ws, data) ->
     room = ws.room
