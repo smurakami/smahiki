@@ -14,8 +14,11 @@
       this.started = false;
       this.finished = false;
       this.team = null;
+      this.team = null;
       this.scrollValue = 0;
-      return this.room_id = null;
+      this.prevScrollValue = 0;
+      this.room_id = null;
+      return this.setTeam("b");
     };
 
     Main.prototype.initCSS = function() {
@@ -62,6 +65,8 @@
           switch (data.event) {
             case 'location':
               return _this.setRoom(data.room_id);
+            case 'scroll':
+              return _this.receiveScroll(data);
           }
         };
       })(this);
@@ -70,6 +75,17 @@
     Main.prototype.setRoom = function(room_id) {
       this.room_id = room_id;
       return this.gameStart();
+    };
+
+    Main.prototype.setTeam = function(team) {
+      this.team = team;
+      if (team === 'a') {
+        $('#background .friend').css('background-color', 'red');
+        return $('#background .enemy').css('background-color', 'white');
+      } else {
+        $('#background .friend').css('background-color', 'white');
+        return $('#background .enemy').css('background-color', 'red');
+      }
     };
 
     Main.prototype.sendLocation = function() {
@@ -92,12 +108,17 @@
     };
 
     Main.prototype.sendScroll = function() {
-      return socket.send({
+      socket.send({
         event: "scroll",
         room_id: this.room_id,
         team: this.team,
-        value: this.scrollValue
+        value: this.scrollValue - this.prevScrollValue
       });
+      return this.prevScrollValue = this.scrollValue;
+    };
+
+    Main.prototype.receiveScroll = function(data) {
+      return console.log(data.value);
     };
 
     Main.prototype.gameStartAnimation = function(completion) {

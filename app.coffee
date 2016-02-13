@@ -5,7 +5,9 @@ class Room
     Room.count++
 
     @location = location
-    @ws_list = [ws]
+    @ws_list = []
+    @addWS ws
+
     # チームに関する値
     @scroll_value =
       a: 0
@@ -23,11 +25,12 @@ class Room
   start: ->
     interval = 0.5
     _loop = =>
-      break if @ws_list.length == 0
+      return if @ws_list.length == 0
       @broadcast
         event: "scroll"
         value: @scroll_value
       setTimeout _loop, 1000 * interval
+    _loop()
 
   broadcast: (data) ->
     message = JSON.stringify data
@@ -99,7 +102,6 @@ class Main
   closeConnection: (ws) ->
     return unless ws.room?
     ws.room.removeWS ws
-    room.ws_list = room.ws_list.filter (x) -> x != ws
 
   onMessage: (ws, message) ->
     data = JSON.parse(message)
@@ -134,7 +136,7 @@ class Main
       when "b"
         room.scroll_value.b += value
 
-process.on 'uncaughtException', (err) ->
-    console.log err
+# process.on 'uncaughtException', (err) ->
+#     console.log err
 
 main = new Main()

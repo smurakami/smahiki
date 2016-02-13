@@ -9,8 +9,12 @@ class Main
     @started = false
     @finished = false
     @team = null
+    @team = null
     @scrollValue = 0
+    @prevScrollValue = 0
     @room_id = null
+
+    @setTeam "b"
 
   initCSS: ->
     $('#team_select').css('margin-left', $(window).width()/2-225).css('margin-top', $(window).height()/2-250)
@@ -44,10 +48,21 @@ class Main
       switch data.event
         when 'location'
           @setRoom data.room_id
+        when 'scroll'
+          @receiveScroll data
 
   setRoom: (room_id) ->
     @room_id = room_id
     @gameStart()
+
+  setTeam: (team) ->
+    @team = team
+    if team == 'a'
+      $('#background .friend').css 'background-color', 'red'
+      $('#background .enemy').css 'background-color', 'white'
+    else
+      $('#background .friend').css 'background-color', 'white'
+      $('#background .enemy').css 'background-color', 'red'
 
   sendLocation: ->
     successCallback = (position) ->
@@ -67,7 +82,11 @@ class Main
       event: "scroll"
       room_id: @room_id
       team: @team
-      value: @scrollValue
+      value: @scrollValue - @prevScrollValue
+    @prevScrollValue = @scrollValue
+
+  receiveScroll: (data) ->
+    console.log data.value
 
   # ---- game start
   gameStartAnimation: (completion) ->
