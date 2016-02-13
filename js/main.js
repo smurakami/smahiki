@@ -52,6 +52,11 @@
     };
 
     Main.prototype.initSocket = function() {
+      socket.onopen = (function(_this) {
+        return function() {
+          return _this.gameStart();
+        };
+      })(this);
       return socket.onmessage = (function(_this) {
         return function(data) {
           console.log(data);
@@ -89,6 +94,7 @@
     Main.prototype.sendScroll = function() {
       return socket.send({
         event: scroll,
+        room_id: this.room_id,
         team: this.team,
         value: this.scrollValue
       });
@@ -119,7 +125,18 @@
     };
 
     Main.prototype.gameStart = function() {
-      return this.started = true;
+      var _loop, interval;
+      this.started = true;
+      interval = 0.5;
+      _loop = (function(_this) {
+        return function() {
+          _this.sendScroll();
+          if (_this.started && !_this.finished) {
+            return setTimeout(_loop, interval * 1000);
+          }
+        };
+      })(this);
+      return _loop();
     };
 
     return Main;
@@ -128,23 +145,7 @@
 
   $(function() {
     var app;
-    app = new Main();
-    $('#red_button').click(function() {
-      app.repeat();
-      return socket.send({
-        team: 'white'
-      });
-    });
-    $('#white_button').click(function() {
-      app.repeat();
-      return socket.send({
-        team: 'red'
-      });
-    });
-    return $('#start_button').click(function() {
-      app.gameStart();
-      return socket.send('start');
-    });
+    return app = new Main();
   });
 
 }).call(this);

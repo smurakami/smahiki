@@ -38,6 +38,8 @@ class Main
         prev = top
 
   initSocket: ->
+    socket.onopen = =>
+      @gameStart()
     socket.onmessage = (data) =>
       console.log data
       switch data.event
@@ -63,6 +65,7 @@ class Main
   sendScroll: ->
     socket.send
       event: scroll
+      room_id: @room_id
       team: @team
       value: @scrollValue
 
@@ -92,16 +95,22 @@ class Main
 
   gameStart: ->
     @started = true
+    interval = 0.5
+    _loop = =>
+      @sendScroll()
+      if @started and not @finished
+        setTimeout _loop, interval * 1000
+    _loop()
 
 $ ->
   app = new Main()
-  $('#red_button').click ->
-    app.repeat()
-    socket.send(team: 'white')
-  $('#white_button').click ->
-    app.repeat()
-    socket.send(team: 'red')
-  $('#start_button').click ->
-    app.gameStart()
-    socket.send('start')
+  # $('#red_button').click ->
+  #   app.repeat()
+  #   socket.send(team: 'white')
+  # $('#white_button').click ->
+  #   app.repeat()
+  #   socket.send(team: 'red')
+  # $('#start_button').click ->
+  #   app.gameStart()
+  #   socket.send('start')
 
