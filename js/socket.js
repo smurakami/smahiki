@@ -51,7 +51,7 @@
   $(function() {
     global.socket = new Socket();
     socket.receive(function(data) {
-      return console.log(data.data.hoge);
+      return console.log(data);
     });
     socket.open(function() {
       return socket.send({
@@ -62,7 +62,7 @@
       console.log('send');
       return socket.send({
         event: "hoge",
-        data: {
+        body: {
           hoge: 2
         }
       });

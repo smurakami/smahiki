@@ -30,7 +30,7 @@ $ ->
   global.socket = new Socket()
 
   socket.receive (data) ->
-    console.log data.data.hoge
+    console.log data
 
   socket.open ->
     socket.send
@@ -40,5 +40,5 @@ $ ->
     console.log 'send'
     socket.send
       event: "hoge"
-      data: {hoge: 2}
+      body: {hoge: 2}
   , 1000
