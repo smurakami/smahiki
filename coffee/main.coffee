@@ -1,8 +1,17 @@
 class Main
   constructor:  ->
+    @init()
     @initCSS()
+    @initScroll()
     @initSocket()
     @sendLocation()
+
+  init: ->
+    @started = false
+    @finished = false
+    @team = null
+    @scrollValue = 0
+    @room_id = null
 
   initCSS: ->
     $('#team_select').css('margin-left', $(window).width()/2-225).css('margin-top', $(window).height()/2-250)
@@ -14,13 +23,31 @@ class Main
     $('#three_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
     $('#go_button').css('margin-left', $(window).width()/2-107).css('margin-top', $(window).height()/2-100)
 
-  initSocket: ->
+  initScroll: ->
     self = @
+    height = $('#scroll_body').height()
+    start_height = height * 0.9
+    prev = start_height
+    $('#scroll_container').scrollTop(start_height)
+    $('#scroll_container').scroll ->
+      top = $('#scroll_container').scrollTop()
+      self.scrollValue += -(top - prev)
+      if top < height / 2
+        $('#scroll_container').scrollTop(start_height)
+        prev = start_height
+      else
+        prev = top
+
+  initSocket: ->
     socket.onmessage = (data) ->
       console.log data
       switch data.event
         when 'location'
-          console.log data.room_id
+          self.setRoom data.room_id
+
+  setRoom: (room_id) ->
+    @room_id = room_id
+
   sendLocation: ->
     successCallback = (position) ->
       location =
@@ -30,16 +57,18 @@ class Main
         event: "location"
         location: location
     errorCallback = ->
-      alert("位置情報の取得に失敗したニャン")
+      alert("位置情報の取得に失敗しました")
     navigator.geolocation.getCurrentPosition successCallback, errorCallback
 
-  repeat: ->
-    $(window).scrollTop(90000)
-    $(window).scroll ->
-      if $(window).scrollTop() < 50000
-        $(window).scrollTop(90000)
+  # ---- send data
+  sendScroll: ->
+    socket.send
+      event: scroll
+      team: @team
+      value: @scrollValue
 
-  gameStart: ->
+  # ---- game start
+  gameStartAnimation: (completion) ->
     setTimeout ->
       $('#start_button').hide()
       $('#three_button').show()
@@ -60,6 +89,10 @@ class Main
       $('#go_button').hide()
       socket.send('start')
     , 4500
+    setTimeout completion, 4500
+
+  gameStart: ->
+    @started = true
 
 $ ->
   app = new Main()

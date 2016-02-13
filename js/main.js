@@ -4,10 +4,20 @@
 
   Main = (function() {
     function Main() {
+      this.init();
       this.initCSS();
+      this.initScroll();
       this.initSocket();
       this.sendLocation();
     }
+
+    Main.prototype.init = function() {
+      this.started = false;
+      this.finished = false;
+      this.team = null;
+      this.scrollValue = 0;
+      return this.room_id = null;
+    };
 
     Main.prototype.initCSS = function() {
       $('#team_select').css('margin-left', $(window).width() / 2 - 225).css('margin-top', $(window).height() / 2 - 250);
@@ -20,16 +30,38 @@
       return $('#go_button').css('margin-left', $(window).width() / 2 - 107).css('margin-top', $(window).height() / 2 - 100);
     };
 
-    Main.prototype.initSocket = function() {
-      var self;
+    Main.prototype.initScroll = function() {
+      var height, prev, self, start_height;
       self = this;
+      height = $('#scroll_body').height();
+      start_height = height * 0.9;
+      prev = start_height;
+      $('#scroll_container').scrollTop(start_height);
+      return $('#scroll_container').scroll(function() {
+        var top;
+        top = $('#scroll_container').scrollTop();
+        self.scrollValue += -(top - prev);
+        if (top < height / 2) {
+          $('#scroll_container').scrollTop(start_height);
+          return prev = start_height;
+        } else {
+          return prev = top;
+        }
+      });
+    };
+
+    Main.prototype.initSocket = function() {
       return socket.onmessage = function(data) {
         console.log(data);
         switch (data.event) {
           case 'location':
-            return console.log(data.room_id);
+            return self.setRoom(data.room_id);
         }
       };
+    };
+
+    Main.prototype.setRoom = function(room_id) {
+      return this.room_id = room_id;
     };
 
     Main.prototype.sendLocation = function() {
@@ -46,21 +78,20 @@
         });
       };
       errorCallback = function() {
-        return alert("位置情報の取得に失敗したニャン");
+        return alert("位置情報の取得に失敗しました");
       };
       return navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     };
 
-    Main.prototype.repeat = function() {
-      $(window).scrollTop(90000);
-      return $(window).scroll(function() {
-        if ($(window).scrollTop() < 50000) {
-          return $(window).scrollTop(90000);
-        }
+    Main.prototype.sendScroll = function() {
+      return socket.send({
+        event: scroll,
+        team: this.team,
+        value: this.scrollValue
       });
     };
 
-    Main.prototype.gameStart = function() {
+    Main.prototype.gameStartAnimation = function(completion) {
       setTimeout(function() {
         $('#start_button').hide();
         return $('#three_button').show();
@@ -77,10 +108,15 @@
         $('#one_button').hide();
         return $('#go_button').show();
       }, 4000);
-      return setTimeout(function() {
+      setTimeout(function() {
         $('#go_button').hide();
         return socket.send('start');
       }, 4500);
+      return setTimeout(completion, 4500);
+    };
+
+    Main.prototype.gameStart = function() {
+      return this.started = true;
     };
 
     return Main;
