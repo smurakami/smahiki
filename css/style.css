@@ -1,6 +1,50 @@
 body {
-  background-image: url("../images/background.jpeg");
   height: 100000px;
   background-size: 100% auto; }
+
+#red_button {
+  position: fixed;
+  height: 44px; }
+  #red_button .text {
+    color: white;
+    border-radius: 4px;
+    padding: 50px;
+    font-size: 75px;
+    font-weight: bold;
+    background-color: #E6040A; }
+
+#white_button {
+  position: fixed;
+  height: 44px; }
+  #white_button .text {
+    color: #daa520;
+    border: 0.5px solid #000000;
+    border-radius: 4px;
+    padding: 50px;
+    font-size: 75px;
+    font-weight: bold;
+    background-color: white; }
+
+#start_button, #one_button, #two_button, #three_button, #go_button {
+  position: fixed;
+  height: 44px;
+  display: none; }
+  #start_button .text, #one_button .text, #two_button .text, #three_button .text, #go_button .text {
+    color: #daa520;
+    border: 0.5px solid #000000;
+    border-radius: 4px;
+    padding: 50px;
+    font-size: 75px;
+    font-weight: bold;
+    background-color: white; }
+
+#team_select {
+  position: fixed;
+  height: 44px; }
+  #team_select .text {
+    padding: 50px;
+    font-size: 50px;
+    font-weight: bold;
+    background-color: white; }
 
 /*# sourceMappingURL=style.css.map */
