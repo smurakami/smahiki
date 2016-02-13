@@ -13,30 +13,35 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
   %body
-    #team_select
-      .text
-        チームを選択！
-    #red_button
-      .text
-        赤
-    #white_button
-      .text
-        白
-    #start_button
-      .text
-        Start!
-    #one_button
-      .text
-        1
-    #two_button
-      .text
-        2
-    #three_button
-      .text
-        3
-    #go_button
-      .text
-        go!
+    #message_container
+      #connecting_message.message
+        .text 接続中...
+      #team_select.message
+        .text
+          チームを選択！
+        #red_button
+          .text
+            赤
+        #white_button
+          .text
+            白
+        #start_button
+          .text
+            Start!
+      #one_button.message
+        .text
+          1
+      #two_button.message
+        .text
+          2
+      #three_button.message
+        .text
+          3
+      #go_button.message
+        .text
+          go!
+    #background
+    #scroll_body
 
     / jQuery (necessary for Bootstrap's JavaScript plugins)
     %script{:src => "https://code.jquery.com/jquery.js"}

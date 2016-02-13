@@ -52,11 +52,6 @@
     };
 
     Main.prototype.repeat = function() {
-      $('body').css('background-image', 'url(../images/background.jpeg)');
-      $('#red_button').hide();
-      $('#white_button').hide();
-      $('#team_select').hide();
-      $('#start_button').show();
       $(window).scrollTop(90000);
       return $(window).scroll(function() {
         if ($(window).scrollTop() < 50000) {
