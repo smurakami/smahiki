@@ -7,10 +7,10 @@ class Socket
     host = window.document.location.host.replace(/:.*/, '')
     @ws = new WebSocket('ws://' + host + ':3000')
     @ws.onmessage = (event) ->
-      if self.received != null
+      if self.onmessage?
         self.onmessage JSON.parse(event.data)
     @ws.onopen = () ->
-      if self.onopen
+      if self.onopen?
         self.onopen()
     @ws.onerror = (error) ->
       console.log('WebSocket Error ' + error)
@@ -19,26 +19,7 @@ class Socket
   send: (data) ->
     @ws.send(JSON.stringify(data))
 
-  receive: (fn) ->
-    @onmessage = fn
-
-  open: (fn) ->
-    @onopen = fn
-
 global = this
 $ ->
   global.socket = new Socket()
 
-  socket.receive (data) ->
-    console.log data
-
-  socket.open ->
-    socket.send
-      event: "location"
-
-  setInterval ->
-    console.log 'send'
-    socket.send
-      event: "hoge"
-      body: {hoge: 2}
-  , 1000

@@ -1,13 +1,4 @@
 # app.coffee
-WebSocketServer = require('ws').Server
-http = require('http')
-express = require('express')
-app = express();
-
-app.use(express.static(__dirname + '/'));
-server = http.createServer(app);
-wss = new WebSocketServer({server:server});
-
 class Room
     @count = 0
     @all = []
@@ -60,29 +51,45 @@ class Room
         @ws_list.forEach (con, i) ->
             con.send(message);
 
-wss.on 'connection', (ws) ->
-    ws.on 'close', ->
-        return if ws.room_id
+
+class Main
+    constructor: ->
+        @setupWSS()
+    setupWSS: ->
+        WebSocketServer = require('ws').Server
+        http = require('http')
+        express = require('express')
+        app = express();
+        app.use(express.static(__dirname + '/'));
+        server = http.createServer(app);
+
+        self = @
+        @wss = new WebSocketServer({server:server});
+        @wss.on 'connection', (ws) ->
+            ws.on 'close', ->
+                self.closeConnection(ws)
+            ws.on 'message', (message) ->
+                self.onMessage ws, message
+        server.listen(3000);
+    closeConnection: (ws) ->
+        return unless ws.room_id?
         room = Room.find ws.room_id
         room.ws_list = room.ws_list.filter (x) -> x != ws
-
-    ws.on 'message', (message) ->
+    onMessage: (ws, message) ->
         data = JSON.parse(message)
         console.log data
-        console.log ws.hogehoge
 
         switch data.event
             when "location"
                 location = data.location
                 room = Room.findByLocation(location)
-                if room = null
-                    room = new Room(null)
+                unless room?
+                    room = new Room(location)
                     Room.save room
                 room.ws_list.push ws
                 ws.room_id = room.id
-            else
-                if room = Room.all[0]
-                    room.broadcast(ws.hogehoge)
-
-server.listen(3000);
-
+                @send ws,
+                    event: "location"
+                    room_id: ws.room_id
+    send: (ws, object) -> ws.send JSON.stringify(object)
+main = new Main()
