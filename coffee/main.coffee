@@ -92,9 +92,10 @@ class Main
     if @team == 'b'
       friend = data.value.b
       enemy = data.value.a
-    console.log "#{friend}, #{enemy}"
     return if friend + enemy == 0
-    $('#background .friend').css('height', "#{100 * friend - enemy / 10000}%");
+    height = "#{50 + 100 * (friend - enemy) / 100000}%"
+    $('#background .friend').animate
+      'height': height
 
   # ---- game start
   gameStartAnimation: (completion) ->

@@ -118,7 +118,7 @@
     };
 
     Main.prototype.receiveScroll = function(data) {
-      var enemy, friend;
+      var enemy, friend, height;
       if (this.team === 'a') {
         friend = data.value.a;
         enemy = data.value.b;
@@ -127,11 +127,13 @@
         friend = data.value.b;
         enemy = data.value.a;
       }
-      console.log(friend + ", " + enemy);
       if (friend + enemy === 0) {
         return;
       }
-      return $('#background .friend').css('height', (100 * friend - enemy / 10000) + "%");
+      height = (50 + 100 * (friend - enemy) / 100000) + "%";
+      return $('#background .friend').animate({
+        'height': height
+      });
     };
 
     Main.prototype.gameStartAnimation = function(completion) {
