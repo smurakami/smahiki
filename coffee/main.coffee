@@ -86,7 +86,15 @@ class Main
     @prevScrollValue = @scrollValue
 
   receiveScroll: (data) ->
-    console.log data.value
+    if @team == 'a'
+      friend = data.value.a
+      enemy = data.value.b
+    if @team == 'b'
+      friend = data.value.b
+      enemy = data.value.a
+    console.log "#{friend}, #{enemy}"
+    return if friend + enemy == 0
+    $('#background .friend').css('height', "#{100 * friend - enemy / 10000}%");
 
   # ---- game start
   gameStartAnimation: (completion) ->

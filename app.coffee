@@ -7,6 +7,7 @@ class Room
     @location = location
     @ws_list = []
     @addWS ws
+    @finished = false
 
     # チームに関する値
     @scroll_value =
@@ -22,10 +23,14 @@ class Room
     ws.room = null
     @ws_list = @ws_list.filter (x) -> x != ws
 
+  destroy: ->
+    @finished = true
+    Room.all = Room.all.filter (x) => x != @
+
   start: ->
     interval = 0.5
     _loop = =>
-      return if @ws_list.length == 0
+      return if @finished
       @broadcast
         event: "scroll"
         value: @scroll_value
@@ -100,8 +105,13 @@ class Main
     server.listen(3000);
 
   closeConnection: (ws) ->
+    console.log 'close'
     return unless ws.room?
-    ws.room.removeWS ws
+    room = ws.room
+    room.removeWS ws
+    console.log "length : #{room.ws_list.length}"
+    if room.ws_list.length == 0
+      room.destroy()
 
   onMessage: (ws, message) ->
     data = JSON.parse(message)

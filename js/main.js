@@ -118,7 +118,20 @@
     };
 
     Main.prototype.receiveScroll = function(data) {
-      return console.log(data.value);
+      var enemy, friend;
+      if (this.team === 'a') {
+        friend = data.value.a;
+        enemy = data.value.b;
+      }
+      if (this.team === 'b') {
+        friend = data.value.b;
+        enemy = data.value.a;
+      }
+      console.log(friend + ", " + enemy);
+      if (friend + enemy === 0) {
+        return;
+      }
+      return $('#background .friend').css('height', (100 * friend - enemy / 10000) + "%");
     };
 
     Main.prototype.gameStartAnimation = function(completion) {
