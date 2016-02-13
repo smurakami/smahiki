@@ -40,11 +40,26 @@ class Room
     return null if d > loc_th # 遠くにある部屋には入れない
     return head
 
-  constructor: (location) ->
-    @location = location
-    @ws_list = []
+  constructor: (ws, location) ->
     @id = Room.count
     Room.count++
+
+    @location = location
+    @ws_list = [ws]
+    # チームに関する値
+    @scroll_value =
+      a: 0
+      b: 0
+    @start()
+
+  start: ->
+    interval = 0.5
+    _loop = =>
+      break if @ws_list.length == 0
+      @broadcast
+        event: "scroll"
+        value: @scroll_value
+      setTimeout _loop, 1000 * interval
 
   broadcast: (data) ->
     message = JSON.stringify data
@@ -78,20 +93,36 @@ class Main
   onMessage: (ws, message) ->
     data = JSON.parse(message)
     console.log data
-
     switch data.event
       when "location"
-        location = data.location
-        room = Room.findByLocation(location)
-        unless room?
-          room = new Room(location)
-          Room.save room
-        room.ws_list.push ws
-        ws.room_id = room.id
-        @send ws,
-          event: "location"
-          room_id: ws.room_id
+        @assignRoom ws, data
+      when "scroll"
+        @scroll ws, data
+
   send: (ws, object) -> ws.send JSON.stringify(object)
+
+  assignRoom: (ws, data) ->
+    location = data.location
+    room = Room.findByLocation(location)
+    if room?
+      room.ws_list.push ws
+      ws.room_id = room.id
+    else
+      room = new Room(ws, location)
+      Room.save room
+    @send ws,
+      event: "location"
+      room_id: ws.room_id
+
+  scroll: (ws, data) ->
+    room = ws.room
+    value = data.value
+    team = data.team
+    switch team
+      when "a"
+        room.scroll_value.a += value
+      when "b"
+        room.scroll_value.b += value
 
 process.on 'uncaughtException', (err) ->
     console.log err

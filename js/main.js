@@ -93,7 +93,7 @@
 
     Main.prototype.sendScroll = function() {
       return socket.send({
-        event: scroll,
+        event: "scroll",
         room_id: this.room_id,
         team: this.team,
         value: this.scrollValue

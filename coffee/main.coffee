@@ -64,7 +64,7 @@ class Main
   # ---- send data
   sendScroll: ->
     socket.send
-      event: scroll
+      event: "scroll"
       room_id: @room_id
       team: @team
       value: @scrollValue
