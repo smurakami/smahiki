@@ -20,7 +20,7 @@ class Main
       console.log data
       switch data.event
         when 'location'
-          console.log ''
+          console.log data.room_id
   sendLocation: ->
     successCallback = (position) ->
       location =

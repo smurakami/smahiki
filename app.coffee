@@ -93,4 +93,7 @@ class Main
           room_id: ws.room_id
   send: (ws, object) -> ws.send JSON.stringify(object)
 
+process.on 'uncaughtException', (err) ->
+    console.log err
+
 main = new Main()

@@ -27,7 +27,7 @@
         console.log(data);
         switch (data.event) {
           case 'location':
-            return console.log('');
+            return console.log(data.room_id);
         }
       };
     };
