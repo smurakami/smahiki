@@ -42,7 +42,7 @@ class Room
     @ws_list.forEach (con, i) ->
       con.send(message);
 
-  #: ---- class
+  #: ---- class methods
   @count = 0
   @all = []
   @find = (id) ->
@@ -145,6 +145,7 @@ class Main
         room.scroll_value.a += value
       when "b"
         room.scroll_value.b += value
+
 
 process.on 'uncaughtException', (err) ->
     console.log err
