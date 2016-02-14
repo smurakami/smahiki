@@ -33,26 +33,22 @@
     };
 
     Main.prototype.initScroll = function() {
-      var height, prev, start_height;
       this.scrollManager = new ScrollManager();
-      height = $('#scroll_body').height();
-      start_height = height * 0.9;
-      prev = start_height;
-      $('#scroll_container').scrollTop(start_height);
-      return $('#scroll_container').scroll((function(_this) {
-        return function(e) {
-          var top;
-          e.preventDefault();
-          top = $('#scroll_container').scrollTop();
+      return this.scrollManager.scrollHandelr = (function(_this) {
+        return function(top, prev) {
+          var height, start_height;
+          height = $('#scroll_body').height();
+          start_height = height * 0.9;
           _this.scrollValue += -(top - prev);
           if (top < height / 2) {
             $('#scroll_container').scrollTop(start_height);
-            return prev = start_height;
+            prev = start_height;
           } else {
-            return prev = top;
+            prev = top;
           }
+          return prev;
         };
-      })(this));
+      })(this);
     };
 
     Main.prototype.initSocket = function() {
@@ -183,11 +179,35 @@
 
   ScrollManager = (function() {
     function ScrollManager() {
+      var _loop;
       this.initTouchEvent();
+      this.initScrollEvent();
+      _loop = (function(_this) {
+        return function() {
+          _this.update();
+          return setTimeout(_loop, 33);
+        };
+      })(this);
+      _loop();
     }
 
     ScrollManager.prototype.initTouchEvent = function() {
-      var getPos;
+      var getPos, self;
+      self = this;
+      this.touchPos = {
+        x: 0,
+        y: 0
+      };
+      this.prevPos = {
+        x: 0,
+        y: 0
+      };
+      this.prevScrollPos = 0;
+      this.speed = {
+        x: 0,
+        y: 0
+      };
+      this.touching = false;
       getPos = function(e) {
         if (e.type === 'touchstart' || e.type === 'touchmove') {
           return {
@@ -208,30 +228,59 @@
           eventPos = getPos(e);
           this.initialTouchPos = eventPos;
           this.initialDocPos = $(this).position();
-          this.touching = true;
-          return console.log("touchstart: (" + eventPos.x + ", " + eventPos.y + ")");
+          self.touching = true;
+          self.touchPos = eventPos;
+          return self.prevPos = eventPos;
         },
         'touchmove mousemove': function(e) {
           var eventPos;
-          if (!this.touching) {
+          if (!self.touching) {
             return;
           }
-          console.log('touchmove');
           e.preventDefault();
           eventPos = getPos(e);
-          return console.log("touchstart: (" + eventPos.x + ", " + eventPos.y + ")");
+          return self.touchPos = eventPos;
         },
         'touchend mouseup': function(e) {
-          if (!this.touching) {
+          if (!self.touching) {
             return;
           }
-          this.touching = false;
-          console.log('touchend');
-          delete this.touching;
+          self.touching = false;
           delete this.initialTouchPos;
           return delete this.initialDocPos;
         }
       });
+    };
+
+    ScrollManager.prototype.initScrollEvent = function() {
+      var height, start_height;
+      height = $('#scroll_body').height();
+      start_height = height * 0.9;
+      this.prevScrollPos = start_height;
+      $('#scroll_container').scrollTop(start_height);
+      return $('#scroll_container').scroll((function(_this) {
+        return function(e) {
+          var top;
+          e.preventDefault();
+          top = $('#scroll_container').scrollTop();
+          if (_this.scrollHandelr) {
+            return _this.prevScrollPos = _this.scrollHandelr(top, _this.prevScrollPos);
+          }
+        };
+      })(this));
+    };
+
+    ScrollManager.prototype.update = function() {
+      var top;
+      if (this.touching) {
+        this.speed.y = -(this.touchPos.y - this.prevPos.y);
+      }
+      top = $('#scroll_container').scrollTop() + this.speed.y;
+      $('#scroll_container').scrollTop(top);
+      if (this.scrollHandelr) {
+        this.prevScrollPos = this.scrollHandelr(top, this.prevScrollPos);
+      }
+      return this.prevPos = this.touchPos;
     };
 
     return ScrollManager;
