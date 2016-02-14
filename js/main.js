@@ -271,7 +271,7 @@
     };
 
     ScrollManager.prototype.update = function() {
-      var top;
+      var friction, next_speed, top;
       if (this.touching) {
         this.speed.y = -(this.touchPos.y - this.prevPos.y);
       }
@@ -280,7 +280,13 @@
       if (this.scrollHandelr) {
         this.prevScrollPos = this.scrollHandelr(top, this.prevScrollPos);
       }
-      return this.prevPos = this.touchPos;
+      this.prevPos = this.touchPos;
+      friction = 5;
+      next_speed = Math.abs(this.speed.y) - friction;
+      if (next_speed < 0) {
+        next_speed = 0;
+      }
+      return this.speed.y = next_speed * Math.sign(this.speed.y);
     };
 
     return ScrollManager;
