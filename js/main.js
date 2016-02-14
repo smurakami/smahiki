@@ -40,8 +40,9 @@
       prev = start_height;
       $('#scroll_container').scrollTop(start_height);
       return $('#scroll_container').scroll((function(_this) {
-        return function() {
+        return function(e) {
           var top;
+          e.preventDefault();
           top = $('#scroll_container').scrollTop();
           _this.scrollValue += -(top - prev);
           if (top < height / 2) {
@@ -186,62 +187,49 @@
     }
 
     ScrollManager.prototype.initTouchEvent = function() {
-      return $('#scroll_container').bind({
+      var getPos;
+      getPos = function(e) {
+        if (e.type === 'touchstart' || e.type === 'touchmove') {
+          return {
+            x: e.originalEvent.changedTouches[0].pageX,
+            y: e.originalEvent.changedTouches[0].pageY
+          };
+        } else {
+          return {
+            x: e.pageX,
+            y: e.pageY
+          };
+        }
+      };
+      return $('#scroll_container').on({
         'touchstart mousedown': function(e) {
           var eventPos;
-          console.log('touchstart');
           e.preventDefault();
-          eventPos = {};
-          if (e.type === 'touchstart') {
-            eventPos = {
-              x: e.originalEvent.changedTouches[0].pageX,
-              y: e.originalEvent.changedTouches[0].pageY
-            };
-          } else {
-            eventPos = {
-              x: e.pageX,
-              y: e.pageY
-            };
-          }
+          eventPos = getPos(e);
           this.initialTouchPos = eventPos;
           this.initialDocPos = $(this).position();
           this.touching = true;
+          return console.log("touchstart: (" + eventPos.x + ", " + eventPos.y + ")");
         },
         'touchmove mousemove': function(e) {
-          var eventPos, left, top;
-          console.log('touchmove');
+          var eventPos;
           if (!this.touching) {
             return;
           }
+          console.log('touchmove');
           e.preventDefault();
-          eventPos = void 0;
-          if (e.type === 'touchmove') {
-            eventPos = {
-              x: e.originalEvent.changedTouches[0].pageX,
-              y: e.originalEvent.changedTouches[0].pageY
-            };
-          } else {
-            eventPos = {
-              x: e.pageX,
-              y: e.pageY
-            };
-          }
-          left = this.initialDocPos.left + eventPos.x - this.initialTouchPos.x;
-          top = this.initialDocPos.top + eventPos.y - this.initialTouchPos.y;
-          $(this).css({
-            left: left,
-            top: top
-          });
+          eventPos = getPos(e);
+          return console.log("touchstart: (" + eventPos.x + ", " + eventPos.y + ")");
         },
         'touchend mouseup': function(e) {
-          console.log('touchend');
           if (!this.touching) {
             return;
           }
           this.touching = false;
+          console.log('touchend');
           delete this.touching;
           delete this.initialTouchPos;
-          delete this.initialDocPos;
+          return delete this.initialDocPos;
         }
       });
     };
