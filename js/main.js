@@ -21,7 +21,8 @@
       this.team = null;
       this.scrollValue = 0;
       this.prevScrollValue = 0;
-      return this.room_id = null;
+      this.room_id = null;
+      return this.finish_scroll_val = 1000;
     };
 
     Main.prototype.initCSS = function() {
@@ -177,6 +178,7 @@
 
     Main.prototype.receiveScroll = function(data) {
       var enemy, friend, height, top;
+      console.log(this.scrollValue);
       if (this.team === 'a') {
         friend = data.value.a;
         enemy = data.value.b;
@@ -189,7 +191,7 @@
         return;
       }
       height = Number($('#background .border').css('height').replace('px', ''));
-      top = $(window).height() * (0.5 + (friend - enemy) / 10000) - height / 2;
+      top = $(window).height() * (0.5 + 0.5 * (friend - enemy) / this.finish_scroll_val) - height / 2;
       return $('#background .border').animate({
         "top": top
       });

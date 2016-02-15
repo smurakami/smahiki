@@ -17,6 +17,7 @@ class Main
     @scrollValue = 0
     @prevScrollValue = 0
     @room_id = null
+    @finish_scroll_val = 1000 # 勝敗がつくスクロール量
 
   initCSS: ->
     height = Number $('#background .border').css('height').replace('px', '')
@@ -126,6 +127,7 @@ class Main
     @prevScrollValue = @scrollValue
 
   receiveScroll: (data) ->
+    console.log @scrollValue
     if @team == 'a'
       friend = data.value.a
       enemy = data.value.b
@@ -134,7 +136,7 @@ class Main
       enemy = data.value.a
     return if friend + enemy == 0
     height = Number $('#background .border').css('height').replace('px', '')
-    top = $(window).height() * (0.5 + (friend - enemy) / 10000) - height / 2
+    top = $(window).height() * (0.5 + 0.5 * (friend - enemy) / @finish_scroll_val) - height / 2
     $('#background .border').animate
       "top": top
 
