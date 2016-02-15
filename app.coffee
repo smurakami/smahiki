@@ -118,16 +118,23 @@ class Room
     return Math.sqrt(dx * dx + dy * dy + dz * dz)
 
   @findByLocation = (loc) ->
+    console.log '@findbyLocation'
+    console.log 'location:'
+    console.log loc
     loc_th = 30000 # [m] これよりも遠いお部屋には入れない
     pos = locToPos(loc)
     sorted = Room.all.concat().sort (a, b) ->
       a_pos = locToPos(a.location)
       b_pos = locToPos(a.location)
       return dist(a_pos, pos) - dist(b_pos, pos)
-    sorted = Room.all.filter (room) -> not room.started
+    sorted = Room.all.filter (room) ->
+      console.log room.id
+      not room.started
     head = sorted[0]
+    console.log "head: #{head}"
     return null unless head?
     d = dist(locToPos(head.location), pos)
+    console.log "dist: #{d}"
     return null if d > loc_th # 遠くにある部屋には入れない
     return head
 
