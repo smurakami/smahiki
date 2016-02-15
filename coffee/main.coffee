@@ -25,11 +25,13 @@ class Main
 
   initScroll: ->
     @scrollManager = new ScrollManager()
-    @scrollManager.scrollHandelr = (top, prev) =>
+    @scrollManager.scrollHandler = (top, prev) =>
       height = $('#scroll_body').height()
-      start_height = height * 0.9
+      min_top = height * 0.1
+      max_top = height * 0.9
+      start_height = height * 0.5
       @scrollValue += -(top - prev)
-      if top < height / 2
+      if top < min_top or top > max_top
         $('#scroll_container').scrollTop(start_height)
         prev = start_height
       else
@@ -215,21 +217,21 @@ class ScrollManager
 
   initScrollEvent: ->
     height = $('#scroll_body').height()
-    start_height = height * 0.9
+    start_height = height * 0.5
     @prevScrollPos = start_height
     $('#scroll_container').scrollTop(start_height)
     $('#scroll_container').scroll (e) =>
       e.preventDefault()
       top = $('#scroll_container').scrollTop()
-      if @scrollHandelr
-        @prevScrollPos = @scrollHandelr(top, @prevScrollPos)
+      if @scrollHandler
+        @prevScrollPos = @scrollHandler(top, @prevScrollPos)
   update: ->
     if @touching
       @speed.y = - (@touchPos.y - @prevPos.y)
     top = $('#scroll_container').scrollTop() + @speed.y
     $('#scroll_container').scrollTop(top)
-    if @scrollHandelr
-      @prevScrollPos = @scrollHandelr(top, @prevScrollPos)
+    if @scrollHandler
+      @prevScrollPos = @scrollHandler(top, @prevScrollPos)
     @prevPos = @touchPos
     friction = 5
     next_speed = Math.abs(@speed.y) - friction

@@ -33,13 +33,15 @@
 
     Main.prototype.initScroll = function() {
       this.scrollManager = new ScrollManager();
-      return this.scrollManager.scrollHandelr = (function(_this) {
+      return this.scrollManager.scrollHandler = (function(_this) {
         return function(top, prev) {
-          var height, start_height;
+          var height, max_top, min_top, start_height;
           height = $('#scroll_body').height();
-          start_height = height * 0.9;
+          min_top = height * 0.1;
+          max_top = height * 0.9;
+          start_height = height * 0.5;
           _this.scrollValue += -(top - prev);
-          if (top < height / 2) {
+          if (top < min_top || top > max_top) {
             $('#scroll_container').scrollTop(start_height);
             prev = start_height;
           } else {
@@ -324,7 +326,7 @@
     ScrollManager.prototype.initScrollEvent = function() {
       var height, start_height;
       height = $('#scroll_body').height();
-      start_height = height * 0.9;
+      start_height = height * 0.5;
       this.prevScrollPos = start_height;
       $('#scroll_container').scrollTop(start_height);
       return $('#scroll_container').scroll((function(_this) {
@@ -332,8 +334,8 @@
           var top;
           e.preventDefault();
           top = $('#scroll_container').scrollTop();
-          if (_this.scrollHandelr) {
-            return _this.prevScrollPos = _this.scrollHandelr(top, _this.prevScrollPos);
+          if (_this.scrollHandler) {
+            return _this.prevScrollPos = _this.scrollHandler(top, _this.prevScrollPos);
           }
         };
       })(this));
@@ -346,8 +348,8 @@
       }
       top = $('#scroll_container').scrollTop() + this.speed.y;
       $('#scroll_container').scrollTop(top);
-      if (this.scrollHandelr) {
-        this.prevScrollPos = this.scrollHandelr(top, this.prevScrollPos);
+      if (this.scrollHandler) {
+        this.prevScrollPos = this.scrollHandler(top, this.prevScrollPos);
       }
       this.prevPos = this.touchPos;
       friction = 5;
