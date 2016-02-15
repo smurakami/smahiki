@@ -99,6 +99,7 @@ class Room
       a_pos = locToPos(a.location)
       b_pos = locToPos(a.location)
       return dist(a_pos, pos) - dist(b_pos, pos)
+    sorted = Room.all.filter (room) -> not room.started
     head = sorted[0]
     return null unless head?
     d = dist(locToPos(head.location), pos)
