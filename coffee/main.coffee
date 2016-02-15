@@ -170,7 +170,7 @@ class Main
     @gameStartAnimation =>
       @message.hideMessageContainer()
       @started = true
-      interval = 0.5
+      interval = 0.1
       _loop = =>
         @sendScroll()
         if @started and not @finished

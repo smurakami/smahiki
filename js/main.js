@@ -243,7 +243,7 @@
           var _loop, interval;
           _this.message.hideMessageContainer();
           _this.started = true;
-          interval = 0.5;
+          interval = 0.1;
           _loop = function() {
             _this.sendScroll();
             if (_this.started && !_this.finished) {

@@ -47,7 +47,7 @@ class Room
 
   start: ->
     return unless @able_to_start
-    interval = 0.5
+    interval = 0.1
     _loop = =>
       return if @finished
       @sendScroll()
