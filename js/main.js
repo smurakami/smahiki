@@ -18,7 +18,7 @@
       this.scrollValue = 0;
       this.prevScrollValue = 0;
       this.room_id = null;
-      return this.setTeam("b");
+      return this.setTeam("a");
     };
 
     Main.prototype.initCSS = function() {
@@ -116,7 +116,7 @@
     };
 
     Main.prototype.receiveScroll = function(data) {
-      var enemy, friend, height;
+      var enemy, friend, height, top;
       if (this.team === 'a') {
         friend = data.value.a;
         enemy = data.value.b;
@@ -128,9 +128,10 @@
       if (friend + enemy === 0) {
         return;
       }
-      height = (50 + 100 * (friend - enemy) / 100000) + "%";
-      return $('#background .friend').animate({
-        'height': height
+      height = 4;
+      top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2;
+      return $('#background .border').animate({
+        "top": top
       });
     };
 

@@ -14,7 +14,7 @@ class Main
     @prevScrollValue = 0
     @room_id = null
 
-    @setTeam "b"
+    @setTeam "a"
 
   initCSS: ->
     $('#team_select').css('margin-left', $(window).width()/2-225).css('margin-top', $(window).height()/2-250)
@@ -92,9 +92,10 @@ class Main
       friend = data.value.b
       enemy = data.value.a
     return if friend + enemy == 0
-    height = "#{50 + 100 * (friend - enemy) / 100000}%"
-    $('#background .friend').animate
-      'height': height
+    height = 4
+    top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2
+    $('#background .border').animate
+      "top": top
 
   # ---- game start
   gameStartAnimation: (completion) ->
