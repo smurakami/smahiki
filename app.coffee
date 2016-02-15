@@ -207,6 +207,6 @@ class Main
 
 
 process.on 'uncaughtException', (err) ->
-    console.log err
+  console.log err
 
 main = new Main()
