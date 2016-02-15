@@ -51,12 +51,32 @@ class Room
     _loop = =>
       return if @finished
       @sendScroll()
+      return if @checkFinished()
       setTimeout _loop, 1000 * interval
     _loop()
 
     @started = true
     @broadcast
       event: 'start'
+
+  checkFinished: ->
+    gap = @scroll_value.a - @scroll_value.b
+    if Math.abs(gap) > @finish_scroll_val
+      @finish()
+      true
+    else
+      false
+
+  finish: ->
+    gap = @scroll_value.a - @scroll_value.b
+    if gap > 0
+      winner = 'a'
+    else
+      winner = 'b'
+    @broadcast
+      event: 'finish'
+      winner: winner
+    @finished = true
 
   sendScroll: ->
     @broadcast

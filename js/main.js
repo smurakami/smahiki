@@ -178,7 +178,6 @@
 
     Main.prototype.receiveScroll = function(data) {
       var enemy, friend, height, top;
-      console.log(this.scrollValue);
       this.finish_scroll_val = data.finish_scroll_val;
       if (this.team === 'a') {
         friend = data.value.a;
@@ -193,6 +192,7 @@
       }
       height = Number($('#background .border').css('height').replace('px', ''));
       top = $(window).height() * (0.5 + 0.5 * (friend - enemy) / this.finish_scroll_val) - height / 2;
+      console.log(friend - enemy);
       return $('#background .border').animate({
         "top": top
       });

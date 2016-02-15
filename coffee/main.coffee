@@ -127,7 +127,6 @@ class Main
     @prevScrollValue = @scrollValue
 
   receiveScroll: (data) ->
-    console.log @scrollValue
     @finish_scroll_val = data.finish_scroll_val
     if @team == 'a'
       friend = data.value.a
@@ -138,6 +137,7 @@ class Main
     return if friend + enemy == 0
     height = Number $('#background .border').css('height').replace('px', '')
     top = $(window).height() * (0.5 + 0.5 * (friend - enemy) / @finish_scroll_val) - height / 2
+    console.log friend-enemy
     $('#background .border').animate
       "top": top
 
