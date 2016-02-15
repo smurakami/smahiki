@@ -118,8 +118,11 @@ class Main
       socket.send
         event: "location"
         location: location
-    errorCallback = ->
-      alert("位置情報の取得に失敗しました")
+    errorCallback = (error) ->
+      if error.code == 1
+        alert "位置情報の利用が許可されていません。設定で位置情報の利用を許可してください"
+      else
+        alert "位置情報の利用ができません。電波状況などを確認してください。"
     navigator.geolocation.getCurrentPosition successCallback, errorCallback
 
   # ---- send data
@@ -273,7 +276,14 @@ class ScrollManager
     next_speed = Math.abs(@speed.y) - friction
     if next_speed < 0
       next_speed = 0
-    @speed.y = next_speed * Math.sign(@speed.y)
+    sign = (x) ->
+      if x > 0
+        1
+      else if x < 0
+        -1
+      else
+        0
+    @speed.y = next_speed * sign(@speed.y)
 
 
 class TrainModeManager

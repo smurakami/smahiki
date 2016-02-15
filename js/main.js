@@ -168,8 +168,12 @@
           location: location
         });
       };
-      errorCallback = function() {
-        return alert("位置情報の取得に失敗しました");
+      errorCallback = function(error) {
+        if (error.code === 1) {
+          return alert("位置情報の利用が許可されていません。設定で位置情報の利用を許可してください");
+        } else {
+          return alert("位置情報の利用ができません。電波状況などを確認してください。");
+        }
       };
       return navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     };
@@ -387,7 +391,7 @@
     };
 
     ScrollManager.prototype.update = function() {
-      var friction, next_speed, top;
+      var friction, next_speed, sign, top;
       if (this.touching) {
         this.speed.y = -(this.touchPos.y - this.prevPos.y);
       }
@@ -402,7 +406,16 @@
       if (next_speed < 0) {
         next_speed = 0;
       }
-      return this.speed.y = next_speed * Math.sign(this.speed.y);
+      sign = function(x) {
+        if (x > 0) {
+          return 1;
+        } else if (x < 0) {
+          return -1;
+        } else {
+          return 0;
+        }
+      };
+      return this.speed.y = next_speed * sign(this.speed.y);
     };
 
     return ScrollManager;
