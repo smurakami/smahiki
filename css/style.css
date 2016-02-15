@@ -1,66 +1,71 @@
 #message_container {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  display: none; }
-
-.message {
+  z-index: 2;
   width: 100%;
   height: 100%; }
-
-#red_button {
-  position: fixed;
-  height: 44px; }
-  #red_button .text {
+  #message_container .message {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+    display: none; }
+  #message_container .connecting {
+    display: block; }
+    #message_container .connecting .text {
+      position: relative;
+      height: 44px;
+      top: calc(50% - 88px);
+      text-align: center;
+      font-size: 50px;
+      font-weight: bold; }
+  #message_container .team_select .text {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px; }
+  #message_container .team_select .button {
+    box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px; }
+    #message_container .team_select .button.disabled {
+      opacity: 0.4; }
+  #message_container .team_select .team_buttons {
+    margin-bottom: 40px;
+    zoom: 1; }
+    #message_container .team_select .team_buttons:before, #message_container .team_select .team_buttons:after {
+      display: block;
+      height: 0;
+      visibility: hidden;
+      content: "\0020"; }
+    #message_container .team_select .team_buttons:after {
+      clear: both; }
+    #message_container .team_select .team_buttons .button {
+      width: 120px;
+      height: 120px;
+      float: left;
+      border-radius: 60px;
+      text-align: center;
+      padding-top: 32px;
+      font-size: 36px; }
+    #message_container .team_select .team_buttons .red_button {
+      margin-left: calc(50% - 130px);
+      color: white;
+      font-weight: bold;
+      background-color: #E6040A; }
+    #message_container .team_select .team_buttons .white_button {
+      margin-left: 20px;
+      color: #daa520;
+      font-weight: bold;
+      background-color: white; }
+  #message_container .start_button {
+    width: 240px;
+    margin: 0 auto;
+    padding: 8px;
+    text-align: center;
+    font-size: 36px;
     color: white;
-    border-radius: 4px;
-    padding: 50px;
-    font-size: 75px;
-    font-weight: bold;
-    background-color: #E6040A; }
-
-#white_button {
-  position: fixed;
-  height: 44px; }
-  #white_button .text {
-    color: #daa520;
-    border: 0.5px solid #000000;
-    border-radius: 4px;
-    padding: 50px;
-    font-size: 75px;
-    font-weight: bold;
-    background-color: white; }
-
-#start_button, #one_button, #two_button, #three_button, #go_button {
-  position: fixed;
-  height: 44px;
-  display: none; }
-  #start_button .text, #one_button .text, #two_button .text, #three_button .text, #go_button .text {
-    color: #daa520;
-    border: 0.5px solid #000000;
-    border-radius: 4px;
-    padding: 50px;
-    font-size: 75px;
-    font-weight: bold;
-    background-color: white; }
-
-#team_select {
-  position: fixed;
-  height: 44px; }
-  #team_select .text {
-    padding: 50px;
-    font-size: 50px;
-    font-weight: bold;
-    background-color: white; }
-
-#connecting_message {
-  position: fixed;
-  height: 44px; }
-  #connecting_message .text {
-    padding: 50px;
-    font-size: 50px;
-    font-weight: bold;
-    background-color: white; }
+    background-color: #3498db;
+    border-radius: 16px; }
 
 #scroll_container {
   position: fixed;
