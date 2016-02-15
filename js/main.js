@@ -203,7 +203,7 @@
       console.log(friend - enemy);
       return $('#background .border').animate({
         "top": top
-      });
+      }, 90);
     };
 
     Main.prototype.gameStartAnimation = function(completion) {

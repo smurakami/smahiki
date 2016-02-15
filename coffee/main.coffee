@@ -143,8 +143,7 @@ class Main
     height = Number $('#background .border').css('height').replace('px', '')
     top = $(window).height() * (0.5 + 0.5 * (friend - enemy) / @finish_scroll_val) - height / 2
     console.log friend-enemy
-    $('#background .border').animate
-      "top": top
+    $('#background .border').animate {"top": top}, 90
 
   # ---- game start
   gameStartAnimation: (completion) ->
