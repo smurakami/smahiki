@@ -181,7 +181,7 @@ class Main
         room.scroll_value.b += value
 
 
-# process.on 'uncaughtException', (err) ->
-#     console.log err
+process.on 'uncaughtException', (err) ->
+    console.log err
 
 main = new Main()
