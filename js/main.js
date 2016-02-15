@@ -179,6 +179,7 @@
     Main.prototype.receiveScroll = function(data) {
       var enemy, friend, height, top;
       console.log(this.scrollValue);
+      this.finish_scroll_val = data.finish_scroll_val;
       if (this.team === 'a') {
         friend = data.value.a;
         enemy = data.value.b;

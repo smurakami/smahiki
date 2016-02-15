@@ -10,6 +10,7 @@ class Room
     @started = false
     @finished = false
     @able_to_start = false
+    @finish_scroll_val = 1000
 
     @team_num =
       a: 0, b: 0
@@ -49,15 +50,19 @@ class Room
     interval = 0.5
     _loop = =>
       return if @finished
-      @broadcast
-        event: "scroll"
-        value: @scroll_value
+      @sendScroll()
       setTimeout _loop, 1000 * interval
     _loop()
 
     @started = true
     @broadcast
       event: 'start'
+
+  sendScroll: ->
+    @broadcast
+      event: "scroll"
+      value: @scroll_value
+      finish_scroll_val: @finish_scroll_val
 
   broadcast: (data) ->
     message = JSON.stringify data

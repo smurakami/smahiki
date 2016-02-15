@@ -128,6 +128,7 @@ class Main
 
   receiveScroll: (data) ->
     console.log @scrollValue
+    @finish_scroll_val = data.finish_scroll_val
     if @team == 'a'
       friend = data.value.a
       enemy = data.value.b
