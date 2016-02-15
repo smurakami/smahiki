@@ -27,7 +27,7 @@
     text-align: center;
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 40px; }
+    margin-bottom: 20px; }
   #message_container .team_select .button {
     box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
     -webkit-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
@@ -35,7 +35,7 @@
     #message_container .team_select .button.disabled {
       opacity: 0.4; }
   #message_container .team_select .team_buttons {
-    margin-bottom: 32px;
+    margin-bottom: 20px;
     zoom: 1; }
     #message_container .team_select .team_buttons:before, #message_container .team_select .team_buttons:after {
       display: block;
@@ -45,25 +45,25 @@
     #message_container .team_select .team_buttons:after {
       clear: both; }
     #message_container .team_select .team_buttons .button {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       float: left;
-      border-radius: 60px;
+      border-radius: 50px;
       text-align: center;
-      padding-top: 32px;
+      padding-top: 24px;
       font-size: 36px; }
     #message_container .team_select .team_buttons .red_button {
-      margin-left: calc(50% - 130px);
+      margin-left: calc(50% - 100px - 15px);
       color: white;
       font-weight: bold;
       background-color: #E6040A; }
     #message_container .team_select .team_buttons .white_button {
-      margin-left: 20px;
+      margin-left: 30px;
       color: #daa520;
       font-weight: bold;
       background-color: white; }
   #message_container .team_select .team_player_number {
-    margin-bottom: 32px;
+    margin-bottom: 20px;
     zoom: 1; }
     #message_container .team_select .team_player_number:before, #message_container .team_select .team_player_number:after {
       display: block;
@@ -87,7 +87,7 @@
     margin: 0 auto;
     padding: 8px;
     text-align: center;
-    font-size: 36px;
+    font-size: 30px;
     color: white;
     border-radius: 16px; }
   #message_container .team_select .start_button {
