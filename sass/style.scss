@@ -54,7 +54,7 @@
             }
         }
         .team_buttons {
-            margin-bottom: 40px;
+            margin-bottom: 32px;
             @include clearfix;
             .button {
                 width: 120px;
@@ -80,29 +80,43 @@
                 background-color: white;
             }
         }
-    }
-
-    .start_button, .train_button {
-        width: 240px;
-        margin: 0 auto;
-        padding: 8px;
-        text-align: center;
-        font-size: 36px;
-        color: white;
-        border-radius: 16px;
-    }
-
-    .start_button {
-        margin-bottom: 20px;
-        background-color: #daa520;
-        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-    }
-
-    .train_button {
-        background-color: white;
-        color: #daa520;
-        font-size: 30px;
-        padding: 11px;
+        .team_player_number {
+            margin-bottom: 32px;
+            @include clearfix;
+            .number {
+                float: left;
+                width: 120px;
+                text-align: center;
+                font-size: 32px;
+                font-weight: bold;
+            }
+            .red_team_number {
+                margin-left: calc(50% - 130px);
+            }
+            .white_team_number {
+                margin-left: 20px;
+            }
+        }
+        .start_button, .train_button {
+            width: 240px;
+            margin: 0 auto;
+            padding: 8px;
+            text-align: center;
+            font-size: 36px;
+            color: white;
+            border-radius: 16px;
+        }
+        .start_button {
+            margin-bottom: 20px;
+            background-color: #daa520;
+            text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+        }
+        .train_button {
+            background-color: white;
+            color: #daa520;
+            font-size: 30px;
+            padding: 11px;
+        }
     }
 }
 
