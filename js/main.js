@@ -194,42 +194,51 @@
     };
 
     Main.prototype.gameStartAnimation = function(completion) {
-      setTimeout(function() {
-        $('#start_button').hide();
-        return $('#three_button').show();
-      }, 1000);
-      setTimeout(function() {
-        $('#three_button').hide();
-        return $('#two_button').show();
-      }, 2000);
-      setTimeout(function() {
-        $('#two_button').hide();
-        return $('#one_button').show();
-      }, 3000);
-      setTimeout(function() {
-        $('#one_button').hide();
-        return $('#go_button').show();
-      }, 4000);
-      setTimeout(function() {
-        $('#go_button').hide();
-        return socket.send('start');
-      }, 4500);
-      return setTimeout(completion, 4500);
+      var interval;
+      interval = 666;
+      setTimeout((function(_this) {
+        return function() {
+          return _this.message.show('.count_three');
+        };
+      })(this), interval * 0);
+      setTimeout((function(_this) {
+        return function() {
+          return _this.message.show('.count_two');
+        };
+      })(this), interval * 1);
+      setTimeout((function(_this) {
+        return function() {
+          return _this.message.show('.count_one');
+        };
+      })(this), interval * 2);
+      setTimeout((function(_this) {
+        return function() {
+          return _this.message.show('.count_go');
+        };
+      })(this), interval * 3);
+      return setTimeout((function(_this) {
+        return function() {
+          _this.message.hideAll();
+          return completion();
+        };
+      })(this), interval * 4);
     };
 
     Main.prototype.gameStart = function() {
-      var _loop, interval;
-      this.started = true;
-      interval = 0.5;
-      _loop = (function(_this) {
+      return this.gameStartAnimation((function(_this) {
         return function() {
-          _this.sendScroll();
-          if (_this.started && !_this.finished) {
-            return setTimeout(_loop, interval * 1000);
-          }
+          var _loop, interval;
+          _this.started = true;
+          interval = 0.5;
+          _loop = function() {
+            _this.sendScroll();
+            if (_this.started && !_this.finished) {
+              return setTimeout(_loop, interval * 1000);
+            }
+          };
+          return _loop();
         };
-      })(this);
-      return _loop();
+      })(this));
     };
 
     return Main;
@@ -358,7 +367,6 @@
     }
 
     MessageManager.prototype.show = function(selector) {
-      selector = '.count_one';
       this.hideAll();
       return $("#message_container " + selector).each(function() {
         return $(this).css('display', 'block');

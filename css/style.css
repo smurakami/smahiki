@@ -99,6 +99,19 @@
     color: #daa520;
     font-size: 30px;
     padding: 11px; }
+  #message_container .count_one .text, #message_container .count_two .text, #message_container .count_three .text, #message_container .count_go .text {
+    position: relative;
+    top: calc(50% - 240px);
+    padding: 0;
+    font-size: 280px;
+    font-weight: bold;
+    text-align: center; }
+  #message_container .count_go {
+    padding-top: 160px; }
+    #message_container .count_go .text {
+      position: relative;
+      top: calc(50% - 200px);
+      font-size: 140px; }
 
 #scroll_container {
   position: fixed;

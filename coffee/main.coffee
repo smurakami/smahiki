@@ -72,7 +72,6 @@ class Main
     @room_id = room_id
     $('#message_rope_id').text("綱ID: #{room_id}")
     @message.show '.team_select'
-    # @gameStart()
 
   setTeam: (team) ->
     @team = team
@@ -139,36 +138,33 @@ class Main
 
   # ---- game start
   gameStartAnimation: (completion) ->
-    setTimeout ->
-      $('#start_button').hide()
-      $('#three_button').show()
-    , 1000
-    setTimeout ->
-      $('#three_button').hide()
-      $('#two_button').show()
-    , 2000
-    setTimeout ->
-      $('#two_button').hide()
-      $('#one_button').show()
-    , 3000
-    setTimeout ->
-      $('#one_button').hide()
-      $('#go_button').show()
-    , 4000
-    setTimeout ->
-      $('#go_button').hide()
-      socket.send('start')
-    , 4500
-    setTimeout completion, 4500
+    interval = 666
+    setTimeout =>
+      @message.show('.count_three')
+    , interval * 0
+    setTimeout =>
+      @message.show('.count_two')
+    , interval * 1
+    setTimeout =>
+      @message.show('.count_one')
+    , interval * 2
+    setTimeout =>
+      @message.show('.count_go')
+    , interval * 3
+    setTimeout =>
+      @message.hideAll()
+      completion()
+    , interval * 4
 
   gameStart: ->
-    @started = true
-    interval = 0.5
-    _loop = =>
-      @sendScroll()
-      if @started and not @finished
-        setTimeout _loop, interval * 1000
-    _loop()
+    @gameStartAnimation =>
+      @started = true
+      interval = 0.5
+      _loop = =>
+        @sendScroll()
+        if @started and not @finished
+          setTimeout _loop, interval * 1000
+      _loop()
 
 class ScrollManager
   constructor: ->
@@ -245,7 +241,6 @@ class MessageManager
   constructor: ->
     @hideAll()
   show: (selector) ->
-    selector = '.count_one'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'

@@ -124,6 +124,24 @@
       padding: 11px;
     }
   }
+  .count_one, .count_two, .count_three, .count_go {
+    .text {
+      position: relative;
+      top: calc(50% - 240px);
+      padding: 0;
+      font-size: 280px;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+  .count_go {
+    padding-top: 160px;
+    .text {
+      position: relative;
+      top: calc(50% - 200px);
+      font-size: 140px;
+    }
+  }
 }
 
 #scroll_container {
