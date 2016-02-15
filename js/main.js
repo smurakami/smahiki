@@ -358,6 +358,7 @@
     }
 
     MessageManager.prototype.show = function(selector) {
+      selector = '.count_one';
       this.hideAll();
       return $("#message_container " + selector).each(function() {
         return $(this).css('display', 'block');

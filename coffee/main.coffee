@@ -245,6 +245,7 @@ class MessageManager
   constructor: ->
     @hideAll()
   show: (selector) ->
+    selector = '.count_one'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'
