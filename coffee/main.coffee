@@ -25,6 +25,9 @@ class Main
     $('#two_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
     $('#three_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
     $('#go_button').css('margin-left', $(window).width()/2-107).css('margin-top', $(window).height()/2-100)
+    height = Number $('#background .border').css('height').replace('px', '')
+    top = $(window).height() * 0.5 - height / 2
+    $('#background .border').css 'top', top
 
   initScroll: ->
     @scrollManager = new ScrollManager()
@@ -92,7 +95,7 @@ class Main
       friend = data.value.b
       enemy = data.value.a
     return if friend + enemy == 0
-    height = 4
+    height = Number $('#background .border').css('height').replace('px', '')
     top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2
     $('#background .border').animate
       "top": top

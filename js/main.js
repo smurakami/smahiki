@@ -22,6 +22,7 @@
     };
 
     Main.prototype.initCSS = function() {
+      var height, top;
       $('#team_select').css('margin-left', $(window).width() / 2 - 225).css('margin-top', $(window).height() / 2 - 250);
       $('#red_button').css('margin-left', $(window).width() / 2 - 200).css('margin-top', $(window).height() / 2 - 50);
       $('#white_button').css('margin-left', $(window).width() / 2).css('margin-top', $(window).height() / 2 - 50);
@@ -29,7 +30,10 @@
       $('#one_button').css('margin-left', $(window).width() / 2 - 71.5).css('margin-top', $(window).height() / 2 - 100);
       $('#two_button').css('margin-left', $(window).width() / 2 - 71.5).css('margin-top', $(window).height() / 2 - 100);
       $('#three_button').css('margin-left', $(window).width() / 2 - 71.5).css('margin-top', $(window).height() / 2 - 100);
-      return $('#go_button').css('margin-left', $(window).width() / 2 - 107).css('margin-top', $(window).height() / 2 - 100);
+      $('#go_button').css('margin-left', $(window).width() / 2 - 107).css('margin-top', $(window).height() / 2 - 100);
+      height = Number($('#background .border').css('height').replace('px', ''));
+      top = $(window).height() * 0.5 - height / 2;
+      return $('#background .border').css('top', top);
     };
 
     Main.prototype.initScroll = function() {
@@ -128,7 +132,7 @@
       if (friend + enemy === 0) {
         return;
       }
-      height = 4;
+      height = Number($('#background .border').css('height').replace('px', ''));
       top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2;
       return $('#background .border').animate({
         "top": top
