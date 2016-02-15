@@ -104,6 +104,8 @@
           return this.gameStart();
         case 'scroll':
           return this.receiveScroll(data);
+        case 'finish':
+          return this.finish(data);
       }
     };
 
@@ -247,6 +249,35 @@
       })(this));
     };
 
+    Main.prototype.finish = function(data) {
+      return setTimeout((function(_this) {
+        return function() {
+          var winner;
+          winner = data.winner;
+          _this.finished = true;
+          if (winner === 'a') {
+            $("#message_container .finish .red").css('display', 'block');
+            $("#message_container .finish .white").css('display', 'none');
+          } else if (winner === 'b') {
+            $("#message_container .finish .red").css('display', 'none');
+            $("#message_container .finish .white").css('display', 'block');
+          } else {
+            console.log('invalid winner');
+            return;
+          }
+          if (winner === _this.team) {
+            $("#message_container .finish .win").css('display', 'block');
+            $("#message_container .finish .lose").css('display', 'none');
+          } else {
+            $("#message_container .finish .win").css('display', 'none');
+            $("#message_container .finish .lose").css('display', 'block');
+          }
+          _this.message.showMessageContainer();
+          return _this.message.show('.finish');
+        };
+      })(this), 300);
+    };
+
     return Main;
 
   })();
@@ -387,6 +418,10 @@
 
     MessageManager.prototype.hideMessageContainer = function() {
       return $('#message_container').css('display', 'none');
+    };
+
+    MessageManager.prototype.showMessageContainer = function() {
+      return $('#message_container').css('display', 'block');
     };
 
     return MessageManager;

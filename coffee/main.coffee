@@ -70,6 +70,8 @@ class Main
         @gameStart()
       when 'scroll'
         @receiveScroll data
+      when 'finish'
+        @finish data
 
   setRoom: (room_id) ->
     @room_id = room_id
@@ -172,6 +174,31 @@ class Main
           setTimeout _loop, interval * 1000
       _loop()
 
+  finish: (data) ->
+    setTimeout =>
+      winner = data.winner
+      @finished = true
+      if winner == 'a'
+        $("#message_container .finish .red").css 'display', 'block'
+        $("#message_container .finish .white").css 'display', 'none'
+      else if winner == 'b'
+        $("#message_container .finish .red").css 'display', 'none'
+        $("#message_container .finish .white").css 'display', 'block'
+      else
+        console.log 'invalid winner'
+        return
+
+      if winner == @team
+        $("#message_container .finish .win").css 'display', 'block'
+        $("#message_container .finish .lose").css 'display', 'none'
+      else
+        $("#message_container .finish .win").css 'display', 'none'
+        $("#message_container .finish .lose").css 'display', 'block'
+
+      @message.showMessageContainer()
+      @message.show '.finish'
+    , 300
+
 class ScrollManager
   constructor: ->
     @initTouchEvent()
@@ -255,6 +282,8 @@ class MessageManager
       $(@).css 'display', 'none'
   hideMessageContainer: ->
     $('#message_container').css 'display', 'none'
+  showMessageContainer: ->
+    $('#message_container').css 'display', 'block'
 
 
 # ---

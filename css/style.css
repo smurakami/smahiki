@@ -112,6 +112,28 @@
       position: relative;
       top: calc(50% - 200px);
       font-size: 140px; }
+  #message_container .finish {
+    font-size: 120px;
+    text-align: center;
+    font-weight: bold;
+    background-color: transparent; }
+    #message_container .finish .red, #message_container .finish .white {
+      height: 100%; }
+      #message_container .finish .red .win, #message_container .finish .red .lose, #message_container .finish .white .win, #message_container .finish .white .lose {
+        position: relative;
+        top: calc(50% - 100px); }
+    #message_container .finish .red {
+      background-color: rgba(255, 0, 0, 0.75); }
+      #message_container .finish .red .win {
+        color: #daa520; }
+      #message_container .finish .red .lose {
+        color: white; }
+    #message_container .finish .white {
+      background-color: rgba(255, 255, 255, 0.75); }
+      #message_container .finish .white .win {
+        color: #daa520; }
+      #message_container .finish .white .lose {
+        color: black; }
 
 #scroll_container {
   position: fixed;
