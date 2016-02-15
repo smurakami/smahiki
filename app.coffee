@@ -9,11 +9,13 @@ class Room
     @addWS ws
     @started = false
     @finished = false
+    @able_to_start = false
 
-    # チームに関する値
+    @team_num =
+      a: 0, b: 0
+    # チームごとの得点
     @scroll_value =
-      a: 0
-      b: 0
+      a: 0, b: 0
     @start()
 
   addWS: (ws) ->
@@ -27,6 +29,20 @@ class Room
   destroy: ->
     @finished = true
     Room.all = Room.all.filter (x) => x != @
+
+  updateTeam: ->
+    @team_num =
+      a: 0, b: 0
+    for ws in @ws_list
+      if ws.team == 'a'
+        @team_num.a++
+      if ws.team == 'b'
+        @team_num.b++
+    @able_to_start = @team_num.a > 0 and @team_num.b > 0
+    @broadcast
+      event: 'team'
+      team_num: @team_num
+      able_to_start: @able_to_start
 
   start: ->
     interval = 0.5
@@ -121,6 +137,8 @@ class Main
     switch data.event
       when "location"
         @assignRoom ws, data
+      when "team"
+        @assignTeam ws, data
       when "scroll"
         @scroll ws, data
 
@@ -138,6 +156,10 @@ class Main
       event: "location"
       room_id: ws.room.id
 
+  assignTeam: (ws, data) ->
+    ws.team = data.team
+    ws.room.updateTeam()
+
   scroll: (ws, data) ->
     room = ws.room
     value = data.value
@@ -149,7 +171,7 @@ class Main
         room.scroll_value.b += value
 
 
-process.on 'uncaughtException', (err) ->
-    console.log err
+# process.on 'uncaughtException', (err) ->
+#     console.log err
 
 main = new Main()

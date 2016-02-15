@@ -8,18 +8,20 @@
       this.initCSS();
       this.initScroll();
       this.initMessage();
+      this.initTeamSelect();
       this.initSocket();
     }
 
     Main.prototype.init = function() {
       this.started = false;
+      this.able_to_start = false;
+      this.team_num = false;
       this.finished = false;
       this.team = null;
       this.team = null;
       this.scrollValue = 0;
       this.prevScrollValue = 0;
-      this.room_id = null;
-      return this.setTeam("a");
+      return this.room_id = null;
     };
 
     Main.prototype.initCSS = function() {
@@ -53,6 +55,19 @@
       return this.message.show('.connecting');
     };
 
+    Main.prototype.initTeamSelect = function() {
+      $('#message_container .team_select .red_button').click((function(_this) {
+        return function() {
+          return _this.setTeam("a");
+        };
+      })(this));
+      return $('#message_container .team_select .white_button').click((function(_this) {
+        return function() {
+          return _this.setTeam("b");
+        };
+      })(this));
+    };
+
     Main.prototype.initSocket = function() {
       socket.onopen = (function(_this) {
         return function() {
@@ -62,14 +77,20 @@
       return socket.onmessage = (function(_this) {
         return function(data) {
           console.log(data);
-          switch (data.event) {
-            case 'location':
-              return _this.setRoom(data.room_id);
-            case 'scroll':
-              return _this.receiveScroll(data);
-          }
+          return _this.onmessage(data);
         };
       })(this);
+    };
+
+    Main.prototype.onmessage = function(data) {
+      switch (data.event) {
+        case 'location':
+          return this.setRoom(data.room_id);
+        case 'team':
+          return this.setTeamNum(data);
+        case 'scroll':
+          return this.receiveScroll(data);
+      }
     };
 
     Main.prototype.setRoom = function(room_id) {
@@ -81,12 +102,35 @@
     Main.prototype.setTeam = function(team) {
       this.team = team;
       if (team === 'a') {
+        $('#message_container .team_select .red_button').removeClass('disabled');
+        $('#message_container .team_select .white_button').addClass('disabled');
         $('#background .friend').css('background-color', 'red');
-        return $('#background .enemy').css('background-color', 'white');
-      } else {
+        $('#background .enemy').css('background-color', 'white');
+      } else if (team === 'b') {
+        $('#message_container .team_select .red_button').addClass('disabled');
+        $('#message_container .team_select .white_button').removeClass('disabled');
         $('#background .friend').css('background-color', 'white');
-        return $('#background .enemy').css('background-color', 'red');
+        $('#background .enemy').css('background-color', 'red');
+      } else {
+        console.log('invalid team name');
+        return;
       }
+      return socket.send({
+        event: 'team',
+        team: team
+      });
+    };
+
+    Main.prototype.setTeamNum = function(data) {
+      this.able_to_start = data.able_to_start;
+      this.team_num = data.team_num;
+      if (this.able_to_start) {
+        $('#message_container .team_select .start_button').removeClass('disabled');
+      } else {
+        $('#message_container .team_select .start_button').addClass('disabled');
+      }
+      $('#message_container .team_select .red_team_number').text(this.team_num.a + "人");
+      return $('#message_container .team_select .white_team_number').text(this.team_num.b + "人");
     };
 
     Main.prototype.sendLocation = function() {

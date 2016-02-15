@@ -4,17 +4,19 @@ class Main
     @initCSS()
     @initScroll()
     @initMessage()
-    @initSocket()
+    @initTeamSelect()
+    @initSocket() # 起点
 
   init: ->
     @started = false
+    @able_to_start = false
+    @team_num = false
     @finished = false
     @team = null
     @team = null
     @scrollValue = 0
     @prevScrollValue = 0
     @room_id = null
-    @setTeam "a"
 
   initCSS: ->
     height = Number $('#background .border').css('height').replace('px', '')
@@ -38,16 +40,27 @@ class Main
     @message = new MessageManager
     @message.show '.connecting'
 
+  initTeamSelect: ->
+    $('#message_container .team_select .red_button').click =>
+      @setTeam "a"
+    $('#message_container .team_select .white_button').click =>
+      @setTeam "b"
+
   initSocket: ->
     socket.onopen = =>
       @sendLocation()
     socket.onmessage = (data) =>
       console.log data
-      switch data.event
-        when 'location'
-          @setRoom data.room_id
-        when 'scroll'
-          @receiveScroll data
+      @onmessage data
+
+  onmessage: (data) ->
+    switch data.event
+      when 'location'
+        @setRoom data.room_id
+      when 'team'
+        @setTeamNum data
+      when 'scroll'
+        @receiveScroll data
 
   setRoom: (room_id) ->
     @room_id = room_id
@@ -58,11 +71,31 @@ class Main
   setTeam: (team) ->
     @team = team
     if team == 'a'
+      $('#message_container .team_select .red_button').removeClass 'disabled'
+      $('#message_container .team_select .white_button').addClass 'disabled'
       $('#background .friend').css 'background-color', 'red'
       $('#background .enemy').css 'background-color', 'white'
-    else
+    else if team == 'b'
+      $('#message_container .team_select .red_button').addClass 'disabled'
+      $('#message_container .team_select .white_button').removeClass 'disabled'
       $('#background .friend').css 'background-color', 'white'
       $('#background .enemy').css 'background-color', 'red'
+    else
+      console.log 'invalid team name'
+      return
+    socket.send
+      event: 'team'
+      team: team
+
+  setTeamNum: (data) ->
+    @able_to_start = data.able_to_start
+    @team_num = data.team_num
+    if @able_to_start
+      $('#message_container .team_select .start_button').removeClass 'disabled'
+    else
+      $('#message_container .team_select .start_button').addClass 'disabled'
+    $('#message_container .team_select .red_team_number').text "#{@team_num.a}人"
+    $('#message_container .team_select .white_team_number').text "#{@team_num.b}人"
 
   sendLocation: ->
     successCallback = (position) ->
