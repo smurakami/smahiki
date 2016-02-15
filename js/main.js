@@ -74,6 +74,7 @@
 
     Main.prototype.setRoom = function(room_id) {
       this.room_id = room_id;
+      $('#message_rope_id').text("綱ID: " + room_id);
       return this.message.show('.team_select');
     };
 

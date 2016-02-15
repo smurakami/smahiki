@@ -17,14 +17,6 @@ class Main
     @setTeam "a"
 
   initCSS: ->
-    # $('#team_select').css('margin-left', $(window).width()/2-225).css('margin-top', $(window).height()/2-250)
-    # $('#red_button').css('margin-left', $(window).width()/2-200).css('margin-top', $(window).height()/2-50)
-    # $('#white_button').css('margin-left', $(window).width()/2).css('margin-top', $(window).height()/2-50)
-    # $('#start_button').css('margin-left', $(window).width()/2-150).css('margin-top', $(window).height()/2-100)
-    # $('#one_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
-    # $('#two_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
-    # $('#three_button').css('margin-left', $(window).width()/2-71.5).css('margin-top', $(window).height()/2-100)
-    # $('#go_button').css('margin-left', $(window).width()/2-107).css('margin-top', $(window).height()/2-100)
     height = Number $('#background .border').css('height').replace('px', '')
     top = $(window).height() * 0.5 - height / 2
     $('#background .border').css 'top', top
@@ -60,6 +52,7 @@ class Main
 
   setRoom: (room_id) ->
     @room_id = room_id
+    $('#message_rope_id').text("綱ID: #{room_id}")
     @message.show '.team_select'
     # @gameStart()
 

@@ -17,8 +17,13 @@
       text-align: center;
       font-size: 50px;
       font-weight: bold; }
+  #message_container .team_select #message_rope_id {
+    padding-top: 8px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px; }
   #message_container .team_select .text {
-    padding-top: 20px;
     text-align: center;
     font-size: 32px;
     font-weight: bold;
