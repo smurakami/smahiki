@@ -228,6 +228,7 @@
       return this.gameStartAnimation((function(_this) {
         return function() {
           var _loop, interval;
+          _this.message.hideMessageContainer();
           _this.started = true;
           interval = 0.5;
           _loop = function() {
@@ -377,6 +378,10 @@
       return $('#message_container .message').each(function() {
         return $(this).css('display', 'none');
       });
+    };
+
+    MessageManager.prototype.hideMessageContainer = function() {
+      return $('#message_container').css('display', 'none');
     };
 
     return MessageManager;
