@@ -187,7 +187,7 @@
         return;
       }
       height = Number($('#background .border').css('height').replace('px', ''));
-      top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2;
+      top = $(window).height() * (0.5 + (friend - enemy) / 10000) - height / 2;
       return $('#background .border').animate({
         "top": top
       });

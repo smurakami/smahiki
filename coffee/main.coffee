@@ -132,7 +132,7 @@ class Main
       enemy = data.value.a
     return if friend + enemy == 0
     height = Number $('#background .border').css('height').replace('px', '')
-    top = $(window).height() * (0.5 + (friend - enemy) / 100000) - height / 2
+    top = $(window).height() * (0.5 + (friend - enemy) / 10000) - height / 2
     $('#background .border').animate
       "top": top
 
