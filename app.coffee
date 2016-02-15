@@ -115,7 +115,7 @@ class Room
     dx = a.x - b.x
     dy = a.y - b.y
     dz = a.z - b.z
-    return Math.sqrt(dx * dx, dy * dy, dz * dz)
+    return Math.sqrt(dx * dx + dy * dy + dz * dz)
 
   @findByLocation = (loc) ->
     loc_th = 30000 # [m] これよりも遠いお部屋には入れない
