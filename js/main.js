@@ -50,7 +50,7 @@
 
     Main.prototype.initMessage = function() {
       this.message = new MessageManager;
-      return this.message.show('.team_select');
+      return this.message.show('.connecting');
     };
 
     Main.prototype.initSocket = function() {

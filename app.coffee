@@ -7,6 +7,7 @@ class Room
     @location = location
     @ws_list = []
     @addWS ws
+    @started = false
     @finished = false
 
     # チームに関する値
@@ -31,9 +32,10 @@ class Room
     interval = 0.5
     _loop = =>
       return if @finished
-      @broadcast
-        event: "scroll"
-        value: @scroll_value
+      if @started
+        @broadcast
+          event: "scroll"
+          value: @scroll_value
       setTimeout _loop, 1000 * interval
     _loop()
 

@@ -36,8 +36,7 @@ class Main
 
   initMessage: ->
     @message = new MessageManager
-    # @message.show '.connecting'
-    @message.show '.team_select'
+    @message.show '.connecting'
 
   initSocket: ->
     socket.onopen = =>
