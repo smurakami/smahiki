@@ -82,15 +82,27 @@
         }
     }
 
-    .start_button {
+    .start_button, .train_button {
         width: 240px;
         margin: 0 auto;
         padding: 8px;
         text-align: center;
         font-size: 36px;
         color: white;
-        background-color: #3498db;
         border-radius: 16px;
+    }
+
+    .start_button {
+        margin-bottom: 20px;
+        background-color: #daa520;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .train_button {
+        background-color: white;
+        color: #daa520;
+        font-size: 30px;
+        padding: 11px;
     }
 }
 

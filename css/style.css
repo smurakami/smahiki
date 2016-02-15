@@ -57,15 +57,23 @@
       color: #daa520;
       font-weight: bold;
       background-color: white; }
-  #message_container .start_button {
+  #message_container .start_button, #message_container .train_button {
     width: 240px;
     margin: 0 auto;
     padding: 8px;
     text-align: center;
     font-size: 36px;
     color: white;
-    background-color: #3498db;
     border-radius: 16px; }
+  #message_container .start_button {
+    margin-bottom: 20px;
+    background-color: #daa520;
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3); }
+  #message_container .train_button {
+    background-color: white;
+    color: #daa520;
+    font-size: 30px;
+    padding: 11px; }
 
 #scroll_container {
   position: fixed;
