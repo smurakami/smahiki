@@ -16,11 +16,11 @@ class Room
     # チームごとの得点
     @scroll_value =
       a: 0, b: 0
-    @start()
 
   addWS: (ws) ->
     @ws_list.push ws
     ws.room = @
+    @updateTeam()
 
   removeWS: (ws) ->
     ws.room = null
@@ -45,15 +45,19 @@ class Room
       able_to_start: @able_to_start
 
   start: ->
+    return unless @able_to_start
     interval = 0.5
     _loop = =>
       return if @finished
-      if @started
-        @broadcast
-          event: "scroll"
-          value: @scroll_value
+      @broadcast
+        event: "scroll"
+        value: @scroll_value
       setTimeout _loop, 1000 * interval
     _loop()
+
+    @started = true
+    @broadcast
+      event: 'start'
 
   broadcast: (data) ->
     message = JSON.stringify data
@@ -139,6 +143,8 @@ class Main
         @assignRoom ws, data
       when "team"
         @assignTeam ws, data
+      when "start"
+        @startGame ws
       when "scroll"
         @scroll ws, data
 
@@ -159,6 +165,9 @@ class Main
   assignTeam: (ws, data) ->
     ws.team = data.team
     ws.room.updateTeam()
+
+  startGame: (ws) ->
+    ws.room.start()
 
   scroll: (ws, data) ->
     room = ws.room

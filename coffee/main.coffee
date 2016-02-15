@@ -45,6 +45,10 @@ class Main
       @setTeam "a"
     $('#message_container .team_select .white_button').click =>
       @setTeam "b"
+    $('#message_container .team_select .start_button').click =>
+      if @able_to_start
+        socket.send
+          event: 'start'
 
   initSocket: ->
     socket.onopen = =>
@@ -59,6 +63,8 @@ class Main
         @setRoom data.room_id
       when 'team'
         @setTeamNum data
+      when 'start'
+        @gameStart()
       when 'scroll'
         @receiveScroll data
 

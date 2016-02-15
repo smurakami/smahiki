@@ -61,9 +61,18 @@
           return _this.setTeam("a");
         };
       })(this));
-      return $('#message_container .team_select .white_button').click((function(_this) {
+      $('#message_container .team_select .white_button').click((function(_this) {
         return function() {
           return _this.setTeam("b");
+        };
+      })(this));
+      return $('#message_container .team_select .start_button').click((function(_this) {
+        return function() {
+          if (_this.able_to_start) {
+            return socket.send({
+              event: 'start'
+            });
+          }
         };
       })(this));
     };
@@ -88,6 +97,8 @@
           return this.setRoom(data.room_id);
         case 'team':
           return this.setTeamNum(data);
+        case 'start':
+          return this.gameStart();
         case 'scroll':
           return this.receiveScroll(data);
       }
