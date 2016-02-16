@@ -332,9 +332,7 @@ class TrainModeManager
   update: ->
     meter = @toMeter @app.scrollValue
     $('#scroll_counter').text "#{meter} m"
-
-    if @counter % 33 == 0
-      window.localStorage.setItem 'scroll_value', @app.scrollValue
+    window.localStorage.setItem 'scroll_value', @app.scrollValue
     @counter += 1
 
   toMeter: (pixel) ->

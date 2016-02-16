@@ -490,9 +490,7 @@
       var meter;
       meter = this.toMeter(this.app.scrollValue);
       $('#scroll_counter').text(meter + " m");
-      if (this.counter % 33 === 0) {
-        window.localStorage.setItem('scroll_value', this.app.scrollValue);
-      }
+      window.localStorage.setItem('scroll_value', this.app.scrollValue);
       return this.counter += 1;
     };
 
