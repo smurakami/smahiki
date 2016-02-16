@@ -456,6 +456,7 @@
     }
 
     MessageManager.prototype.show = function(selector) {
+      selector = '.title';
       this.hideAll();
       return $("#message_container " + selector).each(function() {
         return $(this).css('display', 'block');

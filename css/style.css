@@ -8,6 +8,36 @@
     height: 100%;
     background-color: rgba(255, 255, 255, 0.75);
     display: none; }
+  #message_container .title {
+    padding-top: 18px; }
+    #message_container .title .title_image {
+      width: 240px;
+      margin: 0 auto 16px; }
+      #message_container .title .title_image img {
+        width: 100%;
+        height: auto; }
+    #message_container .title .button {
+      width: 240px;
+      margin: 0 auto;
+      padding: 8px;
+      text-align: center;
+      font-size: 30px;
+      color: white;
+      border-radius: 16px;
+      box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px;
+      -moz-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px; }
+    #message_container .title .buttle {
+      margin-bottom: 16px;
+      background-color: #daa520; }
+    #message_container .title .train {
+      background-color: white;
+      color: #daa520;
+      margin-bottom: 16px; }
+    #message_container .title .tutor {
+      margin-bottom: 16px;
+      background-color: #daa520;
+      font-size: 26px; }
   #message_container .connecting {
     display: block; }
     #message_container .connecting .text {

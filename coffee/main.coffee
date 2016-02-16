@@ -309,6 +309,7 @@ class MessageManager
   constructor: ->
     @hideAll()
   show: (selector) ->
+    selector = '.title'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'
