@@ -206,6 +206,8 @@ html, body {
     text-align: left; }
   #tutorial h1, #tutorial h2 {
     margin-bottom: 16px; }
+  #tutorial h1 {
+    margin-top: 60px; }
   #tutorial h2 {
     line-height: 42px;
     font-size: 30px; }
