@@ -46,13 +46,14 @@ class Main
     @message.show '.title'
 
   initTitle: ->
+    @tutor = new Tutor()
     title = $('#message_container .title')
     title.find('.buttle').click =>
       @gotoBattleMode()
     title.find('.train').click =>
       @startTrainMode()
     title.find('.tutor').click =>
-      console.log 'tarin'
+      @tutor.show()
 
   initTeamSelect: ->
     $('#message_container .team_select .red_button').click =>
@@ -318,6 +319,16 @@ class TrainModeManager
     meter = @app.scrollValue / 667 * 0.104
     rounded = Math.floor(meter * 100) / 100
     $('#scroll_counter').text "#{rounded} m"
+
+
+class Tutor
+  constructor: ->
+    $('#tutorial .button').click =>
+      @hide()
+  show: ->
+    $('#tutorial').css 'display', 'block'
+  hide: ->
+    $('#tutorial').css 'display', 'none'
 
 
 class MessageManager
