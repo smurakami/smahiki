@@ -6,7 +6,7 @@ class Main
     @initMessage()
     @initTitle()
     @initTeamSelect()
-    @initSocket() # 起点
+    # @initSocket() # 起点
 
   init: ->
     @started = false
@@ -48,7 +48,7 @@ class Main
   initTitle: ->
     title = $('#message_container .title')
     title.find('.buttle').click =>
-      console.log 'buttle'
+      @gotoBattleMode()
     title.find('.train').click =>
       @startTrainMode()
     title.find('.tutor').click =>
@@ -65,6 +65,10 @@ class Main
           event: 'start'
     $('#message_container .team_select .train_button').click =>
       @startTrainMode()
+
+  gotoBattleMode: ->
+    @message.show '.connecting'
+    @initSocket()
 
   initSocket: ->
     @socket = new Socket()

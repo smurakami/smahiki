@@ -10,7 +10,6 @@
       this.initMessage();
       this.initTitle();
       this.initTeamSelect();
-      this.initSocket();
     }
 
     Main.prototype.init = function() {
@@ -65,7 +64,7 @@
       title = $('#message_container .title');
       title.find('.buttle').click((function(_this) {
         return function() {
-          return console.log('buttle');
+          return _this.gotoBattleMode();
         };
       })(this));
       title.find('.train').click((function(_this) {
@@ -105,6 +104,11 @@
           return _this.startTrainMode();
         };
       })(this));
+    };
+
+    Main.prototype.gotoBattleMode = function() {
+      this.message.show('.connecting');
+      return this.initSocket();
     };
 
     Main.prototype.initSocket = function() {
