@@ -342,6 +342,26 @@ html, body {
   width: 100%;
   z-index: 2;
   display: none;
+
+  .home, .twitter {
+    width: 50px;
+    height: 44px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .home {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+  }
+  .twitter {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+  }
 }
 
 #scroll_counter {

@@ -263,7 +263,6 @@ class ScrollManager
         y: e.pageY
     $('#scroll_container').on
       'touchstart mousedown': (e) ->
-        e.preventDefault()
         eventPos = getPos e
         @initialTouchPos = eventPos
         @initialDocPos = $(this).position()
@@ -320,6 +319,10 @@ class TrainModeManager
     @counter = 0
     $('#scroll_container #background .border').css 'display', 'none'
     $('#training').css 'display', 'block'
+    $('#training .home').click ->
+      location.reload()
+    $('#training .twitter').click =>
+      @tweet()
 
     _loop = =>
       @update()
@@ -327,16 +330,21 @@ class TrainModeManager
     _loop()
 
   update: ->
-    meter = @app.scrollValue / 667 * 0.104
-    rounded = Math.floor(meter * 100) / 100
-    $('#scroll_counter').text "#{rounded} m"
+    meter = @toMeter @app.scrollValue
+    $('#scroll_counter').text "#{meter} m"
 
     if @counter % 33 == 0
       window.localStorage.setItem 'scroll_value', @app.scrollValue
     @counter += 1
 
+  toMeter: (pixel) ->
+    meter = pixel / 667 * 0.104
+    rounded = Math.floor(meter * 100) / 100
+    rounded
+
   tweet: ->
-    window.location.href = "http://twitter.com/share?url=#{location.href}&amp;text=hello"
+    text = encodeURIComponent "[スマ引き]#{@toMeter(@app.scrollValue)} m フリックしました。"
+    window.location.href = "http://twitter.com/share?url=#{location.href}&amp;text=#{text}"
 
 
 class Tutor

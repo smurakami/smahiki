@@ -384,7 +384,6 @@
       return $('#scroll_container').on({
         'touchstart mousedown': function(e) {
           var eventPos;
-          e.preventDefault();
           eventPos = getPos(e);
           this.initialTouchPos = eventPos;
           this.initialDocPos = $(this).position();
@@ -470,6 +469,14 @@
       this.counter = 0;
       $('#scroll_container #background .border').css('display', 'none');
       $('#training').css('display', 'block');
+      $('#training .home').click(function() {
+        return location.reload();
+      });
+      $('#training .twitter').click((function(_this) {
+        return function() {
+          return _this.tweet();
+        };
+      })(this));
       _loop = (function(_this) {
         return function() {
           _this.update();
@@ -480,18 +487,26 @@
     }
 
     TrainModeManager.prototype.update = function() {
-      var meter, rounded;
-      meter = this.app.scrollValue / 667 * 0.104;
-      rounded = Math.floor(meter * 100) / 100;
-      $('#scroll_counter').text(rounded + " m");
+      var meter;
+      meter = this.toMeter(this.app.scrollValue);
+      $('#scroll_counter').text(meter + " m");
       if (this.counter % 33 === 0) {
         window.localStorage.setItem('scroll_value', this.app.scrollValue);
       }
       return this.counter += 1;
     };
 
+    TrainModeManager.prototype.toMeter = function(pixel) {
+      var meter, rounded;
+      meter = pixel / 667 * 0.104;
+      rounded = Math.floor(meter * 100) / 100;
+      return rounded;
+    };
+
     TrainModeManager.prototype.tweet = function() {
-      return window.location.href = "http://twitter.com/share?url=" + location.href + "&amp;text=hello";
+      var text;
+      text = encodeURIComponent("[スマ引き]" + (this.toMeter(this.app.scrollValue)) + " m フリックしました。");
+      return window.location.href = "http://twitter.com/share?url=" + location.href + "&amp;text=" + text;
     };
 
     return TrainModeManager;

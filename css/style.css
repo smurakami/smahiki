@@ -272,6 +272,20 @@ html, body {
   width: 100%;
   z-index: 2;
   display: none; }
+  #training .home, #training .twitter {
+    width: 50px;
+    height: 44px; }
+    #training .home img, #training .twitter img {
+      width: 100%;
+      height: auto; }
+  #training .home {
+    position: fixed;
+    bottom: 16px;
+    left: 16px; }
+  #training .twitter {
+    position: fixed;
+    bottom: 16px;
+    right: 16px; }
 
 #scroll_counter {
   top: 20px;
