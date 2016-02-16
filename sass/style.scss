@@ -33,6 +33,7 @@ body {
   }
 
   .title {
+    display: block;
     padding-top: 32px;
     .title_image {
       width: 240px;
@@ -71,7 +72,6 @@ body {
   }
 
   .connecting {
-    display: block;
     .text {
       position: relative;
       height: 44px;

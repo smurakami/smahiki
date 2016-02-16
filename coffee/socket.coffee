@@ -1,7 +1,6 @@
 class Socket
   constructor: ->
     @initWebSocket()
-
   initWebSocket: ->
     self = @
     host = window.document.location.host.replace(/:.*/, '')
@@ -19,7 +18,4 @@ class Socket
   send: (data) ->
     @ws.send(JSON.stringify(data))
 
-global = this
-$ ->
-  global.socket = new Socket()
-
+this.Socket = Socket

@@ -57,7 +57,7 @@
 
     Main.prototype.initMessage = function() {
       this.message = new MessageManager;
-      return this.message.show('.connecting');
+      return this.message.show('.title');
     };
 
     Main.prototype.initTitle = function() {
@@ -70,12 +70,12 @@
       })(this));
       title.find('.train').click((function(_this) {
         return function() {
-          return console.log('tarin');
+          return _this.startTrainMode();
         };
       })(this));
       return title.find('.tutor').click((function(_this) {
         return function() {
-          return console.log('tutle');
+          return console.log('tarin');
         };
       })(this));
     };
@@ -94,7 +94,7 @@
       $('#message_container .team_select .start_button').click((function(_this) {
         return function() {
           if (_this.able_to_start) {
-            return socket.send({
+            return _this.socket.send({
               event: 'start'
             });
           }
@@ -108,12 +108,13 @@
     };
 
     Main.prototype.initSocket = function() {
-      socket.onopen = (function(_this) {
+      this.socket = new Socket();
+      this.socket.onopen = (function(_this) {
         return function() {
           return _this.sendLocation();
         };
       })(this);
-      return socket.onmessage = (function(_this) {
+      return this.socket.onmessage = (function(_this) {
         return function(data) {
           console.log(data);
           return _this.onmessage(data);
@@ -158,7 +159,7 @@
         console.log('invalid team name');
         return;
       }
-      return socket.send({
+      return this.socket.send({
         event: 'team',
         team: team
       });
@@ -178,17 +179,19 @@
 
     Main.prototype.sendLocation = function() {
       var errorCallback, successCallback;
-      successCallback = function(position) {
-        var location;
-        location = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+      successCallback = (function(_this) {
+        return function(position) {
+          var location;
+          location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+          return _this.socket.send({
+            event: "location",
+            location: location
+          });
         };
-        return socket.send({
-          event: "location",
-          location: location
-        });
-      };
+      })(this);
       errorCallback = function(error) {
         if (error.code === 1) {
           return alert("位置情報の利用が許可されていません。設定で位置情報の利用を許可してください");
@@ -200,7 +203,7 @@
     };
 
     Main.prototype.sendScroll = function() {
-      socket.send({
+      this.socket.send({
         event: "scroll",
         room_id: this.room_id,
         team: this.team,
@@ -477,7 +480,6 @@
     }
 
     MessageManager.prototype.show = function(selector) {
-      selector = '.title';
       this.hideAll();
       return $("#message_container " + selector).each(function() {
         return $(this).css('display', 'block');

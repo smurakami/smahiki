@@ -20,6 +20,7 @@ body {
     background-color: rgba(255, 255, 255, 0.75);
     display: none; }
   #message_container .title {
+    display: block;
     padding-top: 32px; }
     #message_container .title .title_image {
       width: 240px;
@@ -49,15 +50,13 @@ body {
       margin-bottom: 16px;
       background-color: #daa520;
       font-size: 26px; }
-  #message_container .connecting {
-    display: block; }
-    #message_container .connecting .text {
-      position: relative;
-      height: 44px;
-      top: calc(50% - 88px);
-      text-align: center;
-      font-size: 50px;
-      font-weight: bold; }
+  #message_container .connecting .text {
+    position: relative;
+    height: 44px;
+    top: calc(50% - 88px);
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold; }
   #message_container .team_select #message_rope_id {
     padding-top: 8px;
     text-align: center;

@@ -43,16 +43,16 @@ class Main
 
   initMessage: ->
     @message = new MessageManager
-    @message.show '.connecting'
+    @message.show '.title'
 
   initTitle: ->
     title = $('#message_container .title')
     title.find('.buttle').click =>
       console.log 'buttle'
     title.find('.train').click =>
-      console.log 'tarin'
+      @startTrainMode()
     title.find('.tutor').click =>
-      console.log 'tutle'
+      console.log 'tarin'
 
   initTeamSelect: ->
     $('#message_container .team_select .red_button').click =>
@@ -61,15 +61,16 @@ class Main
       @setTeam "b"
     $('#message_container .team_select .start_button').click =>
       if @able_to_start
-        socket.send
+        @socket.send
           event: 'start'
     $('#message_container .team_select .train_button').click =>
       @startTrainMode()
 
   initSocket: ->
-    socket.onopen = =>
+    @socket = new Socket()
+    @socket.onopen = =>
       @sendLocation()
-    socket.onmessage = (data) =>
+    @socket.onmessage = (data) =>
       console.log data
       @onmessage data
 
@@ -106,7 +107,7 @@ class Main
     else
       console.log 'invalid team name'
       return
-    socket.send
+    @socket.send
       event: 'team'
       team: team
 
@@ -121,11 +122,11 @@ class Main
     $('#message_container .team_select .white_team_number').text "#{@team_num.b}人"
 
   sendLocation: ->
-    successCallback = (position) ->
+    successCallback = (position) =>
       location =
         latitude: position.coords.latitude
         longitude: position.coords.longitude
-      socket.send
+      @socket.send
         event: "location"
         location: location
     errorCallback = (error) ->
@@ -137,7 +138,7 @@ class Main
 
   # ---- send data
   sendScroll: ->
-    socket.send
+    @socket.send
       event: "scroll"
       room_id: @room_id
       team: @team
@@ -319,7 +320,6 @@ class MessageManager
   constructor: ->
     @hideAll()
   show: (selector) ->
-    selector = '.title'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'
