@@ -25,6 +25,17 @@ class Main
     height = Number $('#background .border').css('height').replace('px', '')
     top = $(window).height() * 0.5 - height / 2
     $('#background .border').css 'top', top
+    if $(window).height() < $(window).width()
+      width = 375
+      left = ($(window).width() - width) / 2
+      for selector in [
+        '#message_container',
+        '#scroll_container'
+        '#tutorial'
+        ]
+        $(selector).css 'width', width
+        $(selector).css 'margin-left', left
+
 
   initScroll: ->
     @scrollManager = new ScrollManager()

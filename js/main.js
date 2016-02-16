@@ -27,10 +27,22 @@
     };
 
     Main.prototype.initCSS = function() {
-      var height, top;
+      var height, i, left, len, ref, results, selector, top, width;
       height = Number($('#background .border').css('height').replace('px', ''));
       top = $(window).height() * 0.5 - height / 2;
-      return $('#background .border').css('top', top);
+      $('#background .border').css('top', top);
+      if ($(window).height() < $(window).width()) {
+        width = 375;
+        left = ($(window).width() - width) / 2;
+        ref = ['#message_container', '#scroll_container', '#tutorial'];
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          selector = ref[i];
+          $(selector).css('width', width);
+          results.push($(selector).css('margin-left', left));
+        }
+        return results;
+      }
     };
 
     Main.prototype.initScroll = function() {
