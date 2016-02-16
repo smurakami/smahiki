@@ -339,7 +339,6 @@ class MessageManager
     $('#message_container .finish .again').click ->
       location.reload()
   show: (selector) ->
-    selector = '.finish'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'
