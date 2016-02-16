@@ -67,7 +67,8 @@ html, body {
     }
     .tutor {
       margin-bottom: 16px;
-      background-color: #daa520;
+      background-color: #4a3b25;
+      color: white;
       font-size: 26px;
     }
   }
@@ -239,15 +240,42 @@ html, body {
 }
 
 #tutorial {
-  display: none;
+  // display: none;
   position: relative;
-  padding: 16px;;
+  padding: 16px 24px;;
   z-index: 3;
-  background-color: rgba(0, 0, 0, 0.75);
-  color: white;
+  background-color: rgba(255, 255, 255, 0.90);
   min-height: 600px;
   font-size: 20px;
   text-align: center;
+
+  .left {
+    text-align: left;
+  }
+
+
+  h1, h2 {
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    line-height: 42px;
+    font-size: 30px;
+  }
+
+  img {
+    width: 240px;
+    margin-bottom: 16px;
+  }
+
+  p.strong {
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  span.strong {
+    font-weight: bold;
+  }
 
   .button {
     width: 240px;
@@ -255,8 +283,8 @@ html, body {
     padding: 8px;
     text-align: center;
     font-size: 30px;
-    background-color: white;
-    color: black;
+    background-color: #4a3b25;
+    color: white;
     border-radius: 16px;
     font-size: 20px;
   }

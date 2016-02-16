@@ -50,7 +50,8 @@ html, body {
       margin-bottom: 16px; }
     #message_container .title .tutor {
       margin-bottom: 16px;
-      background-color: #daa520;
+      background-color: #4a3b25;
+      color: white;
       font-size: 26px; }
   #message_container .connecting .text {
     position: relative;
@@ -193,23 +194,36 @@ html, body {
       -moz-box-shadow: rgba(0, 0, 0, 0.45098) 0px 5px 30px 0px; }
 
 #tutorial {
-  display: none;
   position: relative;
-  padding: 16px;
+  padding: 16px 24px;
   z-index: 3;
-  background-color: rgba(0, 0, 0, 0.75);
-  color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   min-height: 600px;
   font-size: 20px;
   text-align: center; }
+  #tutorial .left {
+    text-align: left; }
+  #tutorial h1, #tutorial h2 {
+    margin-bottom: 16px; }
+  #tutorial h2 {
+    line-height: 42px;
+    font-size: 30px; }
+  #tutorial img {
+    width: 240px;
+    margin-bottom: 16px; }
+  #tutorial p.strong {
+    font-weight: bold;
+    font-size: 24px; }
+  #tutorial span.strong {
+    font-weight: bold; }
   #tutorial .button {
     width: 240px;
     margin: 16px auto;
     padding: 8px;
     text-align: center;
     font-size: 30px;
-    background-color: white;
-    color: black;
+    background-color: #4a3b25;
+    color: white;
     border-radius: 16px;
     font-size: 20px; }
 
