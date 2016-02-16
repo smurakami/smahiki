@@ -100,9 +100,9 @@
           }
         };
       })(this));
-      return $('#message_container .team_select .train_button').click((function(_this) {
+      return $('#message_container .team_select .back_button').click((function(_this) {
         return function() {
-          return _this.startTrainMode();
+          return location.reload();
         };
       })(this));
     };
@@ -502,10 +502,18 @@
 
   MessageManager = (function() {
     function MessageManager() {
+      this.initButton();
       this.hideAll();
     }
 
+    MessageManager.prototype.initButton = function() {
+      return $('#message_container .finish .again').click(function() {
+        return location.reload();
+      });
+    };
+
     MessageManager.prototype.show = function(selector) {
+      selector = '.finish';
       this.hideAll();
       return $("#message_container " + selector).each(function() {
         return $(this).css('display', 'block');

@@ -64,8 +64,8 @@ class Main
       if @able_to_start
         @socket.send
           event: 'start'
-    $('#message_container .team_select .train_button').click =>
-      @startTrainMode()
+    $('#message_container .team_select .back_button').click =>
+      location.reload()
 
   gotoBattleMode: ->
     @message.show '.connecting'
@@ -333,8 +333,13 @@ class Tutor
 
 class MessageManager
   constructor: ->
+    @initButton()
     @hideAll()
+  initButton: ->
+    $('#message_container .finish .again').click ->
+      location.reload()
   show: (selector) ->
+    selector = '.finish'
     @hideAll()
     $("#message_container " + selector).each ->
       $(@).css 'display', 'block'
