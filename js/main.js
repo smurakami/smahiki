@@ -8,6 +8,7 @@
       this.initCSS();
       this.initScroll();
       this.initMessage();
+      this.initTitle();
       this.initTeamSelect();
       this.initSocket();
     }
@@ -57,6 +58,26 @@
     Main.prototype.initMessage = function() {
       this.message = new MessageManager;
       return this.message.show('.connecting');
+    };
+
+    Main.prototype.initTitle = function() {
+      var title;
+      title = $('#message_container .title');
+      title.find('.buttle').click((function(_this) {
+        return function() {
+          return console.log('buttle');
+        };
+      })(this));
+      title.find('.train').click((function(_this) {
+        return function() {
+          return console.log('tarin');
+        };
+      })(this));
+      return title.find('.tutor').click((function(_this) {
+        return function() {
+          return console.log('tutle');
+        };
+      })(this));
     };
 
     Main.prototype.initTeamSelect = function() {

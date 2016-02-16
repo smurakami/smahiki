@@ -4,6 +4,7 @@ class Main
     @initCSS()
     @initScroll()
     @initMessage()
+    @initTitle()
     @initTeamSelect()
     @initSocket() # 起点
 
@@ -43,6 +44,15 @@ class Main
   initMessage: ->
     @message = new MessageManager
     @message.show '.connecting'
+
+  initTitle: ->
+    title = $('#message_container .title')
+    title.find('.buttle').click =>
+      console.log 'buttle'
+    title.find('.train').click =>
+      console.log 'tarin'
+    title.find('.tutor').click =>
+      console.log 'tutle'
 
   initTeamSelect: ->
     $('#message_container .team_select .red_button').click =>
