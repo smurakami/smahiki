@@ -10,7 +10,7 @@ class Room
     @started = false
     @finished = false
     @able_to_start = false
-    @finish_scroll_val = 1000
+    @finish_scroll_val = 1000 # 後で書き換えられる
 
     @team_num =
       a: 0, b: 0
@@ -48,9 +48,15 @@ class Room
   start: ->
     return unless @able_to_start
     interval = 0.1
+    duration = 10
+    max_val = 20000
+    min_val = 1000
+    finish_val = new ValManager(max_val, min_val, duration, interval)
+    @finish_scroll_val = max_val
     _loop = =>
       return if @finished
       @sendScroll()
+      @finish_scroll_val = finish_val.update()
       return if @checkFinished()
       setTimeout _loop, 1000 * interval
     _loop()
@@ -138,6 +144,23 @@ class Room
     return null if d > loc_th # 遠くにある部屋には入れない
     return head
 
+
+class ValManager
+  constructor: (start_val, finish_val, duration, interval) ->
+    @start_val = start_val
+    @finish_val = finish_val
+    @duration = duration
+    @interval = interval
+    @counter = 0
+    @val = start_val
+
+  update: ->
+    @counter += 1
+    rate = @interval * @counter / @duration
+    if rate > 1
+      rate = 1
+    @val = @start_val + rate * (@finish_val - @start_val)
+    return @val
 
 class Main
   constructor: ->
