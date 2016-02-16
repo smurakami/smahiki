@@ -35,7 +35,7 @@ class Main
         ]
         $(selector).css 'width', width
         $(selector).css 'margin-left', left
-
+      $('#training').css 'width', width
 
   initScroll: ->
     @scrollManager = new ScrollManager()
@@ -316,8 +316,10 @@ class ScrollManager
 class TrainModeManager
   constructor: (app) ->
     @app = app
+    app.scrollValue = Number(window.localStorage.getItem('scroll_value') ? 0)
+    @counter = 0
     $('#scroll_container #background .border').css 'display', 'none'
-    $('#scroll_counter').css 'display', 'block'
+    $('#training').css 'display', 'block'
 
     _loop = =>
       @update()
@@ -325,11 +327,16 @@ class TrainModeManager
     _loop()
 
   update: ->
-    console.log
-    console.log @app.scrollValue
     meter = @app.scrollValue / 667 * 0.104
     rounded = Math.floor(meter * 100) / 100
     $('#scroll_counter').text "#{rounded} m"
+
+    if @counter % 33 == 0
+      window.localStorage.setItem 'scroll_value', @app.scrollValue
+    @counter += 1
+
+  tweet: ->
+    window.location.href = "http://twitter.com/share?url=#{location.href}&amp;text=hello"
 
 
 class Tutor

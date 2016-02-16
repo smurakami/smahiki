@@ -27,7 +27,7 @@
     };
 
     Main.prototype.initCSS = function() {
-      var height, i, left, len, ref, results, selector, top, width;
+      var height, i, left, len, ref, selector, top, width;
       height = Number($('#background .border').css('height').replace('px', ''));
       top = $(window).height() * 0.5 - height / 2;
       $('#background .border').css('top', top);
@@ -35,13 +35,12 @@
         width = 375;
         left = ($(window).width() - width) / 2;
         ref = ['#message_container', '#scroll_container', '#tutorial'];
-        results = [];
         for (i = 0, len = ref.length; i < len; i++) {
           selector = ref[i];
           $(selector).css('width', width);
-          results.push($(selector).css('margin-left', left));
+          $(selector).css('margin-left', left);
         }
-        return results;
+        return $('#training').css('width', width);
       }
     };
 
@@ -465,10 +464,12 @@
 
   TrainModeManager = (function() {
     function TrainModeManager(app) {
-      var _loop;
+      var _loop, ref;
       this.app = app;
+      app.scrollValue = Number((ref = window.localStorage.getItem('scroll_value')) != null ? ref : 0);
+      this.counter = 0;
       $('#scroll_container #background .border').css('display', 'none');
-      $('#scroll_counter').css('display', 'block');
+      $('#training').css('display', 'block');
       _loop = (function(_this) {
         return function() {
           _this.update();
@@ -480,11 +481,17 @@
 
     TrainModeManager.prototype.update = function() {
       var meter, rounded;
-      console.log;
-      console.log(this.app.scrollValue);
       meter = this.app.scrollValue / 667 * 0.104;
       rounded = Math.floor(meter * 100) / 100;
-      return $('#scroll_counter').text(rounded + " m");
+      $('#scroll_counter').text(rounded + " m");
+      if (this.counter % 33 === 0) {
+        window.localStorage.setItem('scroll_value', this.app.scrollValue);
+      }
+      return this.counter += 1;
+    };
+
+    TrainModeManager.prototype.tweet = function() {
+      return window.location.href = "http://twitter.com/share?url=" + location.href + "&amp;text=hello";
     };
 
     return TrainModeManager;
