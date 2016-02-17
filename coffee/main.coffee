@@ -6,7 +6,6 @@ class Main
     @initMessage()
     @initTitle()
     @initTeamSelect()
-    # @initSocket() # 起点
 
   init: ->
     @started = false
@@ -36,6 +35,8 @@ class Main
         $(selector).css 'width', width
         $(selector).css 'margin-left', left
       $('#training').css 'width', width
+      $('#training .home').css 'left', left + 16
+      $('#training .twitter').css 'right', left + 16
 
   initScroll: ->
     @scrollManager = new ScrollManager()

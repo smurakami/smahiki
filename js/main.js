@@ -40,7 +40,9 @@
           $(selector).css('width', width);
           $(selector).css('margin-left', left);
         }
-        return $('#training').css('width', width);
+        $('#training').css('width', width);
+        $('#training .home').css('left', left + 16);
+        return $('#training .twitter').css('right', left + 16);
       }
     };
 
