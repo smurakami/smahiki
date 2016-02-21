@@ -127,7 +127,7 @@ class Room
     console.log '@findbyLocation'
     console.log 'location:'
     console.log loc
-    loc_th = 30000 # [m] これよりも遠いお部屋には入れない
+    loc_th = 5000 # [m] これよりも遠いお部屋には入れない
     pos = locToPos(loc)
     sorted = Room.all.concat().sort (a, b) ->
       a_pos = locToPos(a.location)
