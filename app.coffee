@@ -47,7 +47,7 @@ class Room
 
   start: ->
     return unless @able_to_start
-    interval = 0.2
+    interval = 0.1
     duration = 10
     max_val = 20000
     min_val = 1000
